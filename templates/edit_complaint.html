@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Complaint | CIVITRACK+</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .btn-update {
+            background: #4a5da9;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .btn-update:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/emblem.png') }}" alt="Emblem">
+            <span>CIVITRACK+</span>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="/user_dashboard" class="menu-item">
+                <i class="fas fa-th-large"></i> Dashboard
+            </a>
+            <a href="/track_complaint" class="menu-item">
+                <i class="fas fa-search-location"></i> Track Complaint
+            </a>
+            <a href="/edit_complaint_portal" class="menu-item">
+                <i class="fas fa-edit"></i> Edit Complaint
+            </a>
+            <a href="/delete_complaint_portal" class="menu-item">
+                <i class="fas fa-trash-alt"></i> Delete Complaint
+            </a>
+            <a href="/user_reports" class="menu-item">
+                <i class="fas fa-file-invoice"></i> Reports
+            </a>
+            <a href="/government_directories" class="menu-item">
+                <i class="fas fa-atlas"></i> Government Directories
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <header class="top-nav">
+            <div class="nav-brand">Edit Complaint #{{ complaint.id }}</div>
+            <div class="nav-right">
+                <div class="user-profile">
+                    <span>{{ user_name }}</span>
+                    <img src="https://ui-avatars.com/api/?name={{ user_name }}&background=random" alt="User">
+                </div>
+            </div>
+        </header>
+
+        <main class="content-area">
+            <h1>Update Complaint Details</h1>
+            <p style="color: #666; margin-bottom: 30px;">You are editing your complaint submitted to the {{
+                complaint.department }} department.</p>
+
+            <div class="form-container">
+                <form action="{{ url_for('edit_complaint', id=complaint.id) }}" method="POST">
+                    <div class="form-group">
+                        <label for="title">Complaint Title</label>
+                        <input type="text" id="title" name="title" value="{{ complaint.title }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Incident Location</label>
+                        <input type="text" id="location" name="location" value="{{ complaint.incident_location }}"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Detailed Description</label>
+                        <textarea id="description" name="description" rows="5"
+                            required>{{ complaint.description }}</textarea>
+                    </div>
+                    <button type="submit" class="btn-update">Update Complaint</button>
+                    <a href="/user_dashboard"
+                        style="display: block; text-align: center; margin-top: 15px; color: #666; text-decoration: none;">Cancel</a>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

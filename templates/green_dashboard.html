@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Services Dashboard | CIVITRACK+</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --sidebar-width: 260px;
+            --primary-color: #10b981;
+            --secondary-color: #34d399;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            margin: 0;
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(180deg, #065f46 0%, #064e3b 100%);
+            color: white;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 0 25px 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-header img {
+            width: 35px;
+            height: 35px;
+        }
+
+        .sidebar-header span {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-menu {
+            flex: 1;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 25px;
+            color: #a7f3d0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+            gap: 15px;
+        }
+
+        .menu-item i {
+            width: 20px;
+            font-size: 18px;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            border-left-color: #34d399;
+        }
+
+        .sidebar-footer {
+            padding: 20px 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            color: #a7f3d0;
+        }
+
+        .sidebar-footer a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .sidebar-footer a:hover {
+            color: white;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            min-height: 100vh;
+            padding: 0;
+            background: #f4f7fe;
+        }
+
+        .top-navbar {
+            background: white;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .nav-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-icons i {
+            font-size: 20px;
+            color: #64748b;
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-info span {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .user-info img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+        }
+
+        .dashboard-page {
+            padding: 30px 40px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .header-title h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #1e293b;
+        }
+
+        .header-title p {
+            margin: 5px 0 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .date-badge {
+            background: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            font-size: 14px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid #edf2f7;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .stat-details h3 {
+            margin: 0;
+            font-size: 24px;
+            color: #1e293b;
+        }
+
+        .stat-details p {
+            margin: 0;
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .icon-new {
+            background: #ecfdf5;
+            color: #10b981;
+        }
+
+        .icon-pending {
+            background: #fff7ed;
+            color: #f97316;
+        }
+
+        .icon-resolved {
+            background: #f0fdf4;
+            color: #22c55e;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid #edf2f7;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #edf2f7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #1e293b;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 8px 15px 8px 35px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            width: 250px;
+            font-size: 14px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        .complaint-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .complaint-table th {
+            text-align: left;
+            padding: 15px 25px;
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .complaint-table td {
+            padding: 15px 25px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+            font-size: 14px;
+        }
+
+        .complaint-id {
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .complaint-title-cell {
+            max-width: 250px;
+        }
+
+        .complaint-title {
+            font-weight: 600;
+            display: block;
+        }
+
+        .complaint-subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .photo-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid #e2e8f0;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .status-new {
+            background: #ecfdf5;
+            color: #10b981;
+        }
+
+        .status-pending {
+            background: #fff7ed;
+            color: #f97316;
+        }
+
+        .status-resolved {
+            background: #f0fdf4;
+            color: #22c55e;
+        }
+
+        .status-assigned {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .status-inprogress {
+            background: #fff1f2;
+            color: #f43f5e;
+        }
+
+        .btn-action {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: #10b981;
+            color: white;
+            border: none;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-action:hover {
+            background: #059669;
+        }
+
+        .pagination {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .pg-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background: white;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pg-btn.active {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .btn-choose {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .logout-link {
+            color: #ef4444;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .logout-link:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/emblem.png') }}" alt="Emblem">
+            <span>CIVITRACK+</span>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="/green_dashboard?view=dashboard" class="menu-item {% if view == 'dashboard' %}active{% endif %}">
+                <i class="fas fa-chart-line"></i>
+                Dashboard
+            </a>
+            <a href="/green_dashboard?view=complaints" class="menu-item {% if view == 'complaints' %}active{% endif %}">
+                <i class="fas fa-tasks"></i>
+                Complaints
+            </a>
+            <a href="/green_dashboard?view=reports" class="menu-item {% if view == 'reports' %}active{% endif %}">
+                <i class="fas fa-file-alt"></i>
+                Reports
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-cog"></i>
+                Settings
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="/logout" class="logout-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </aside>
+
+    <div class="main-content">
+        <!-- TOP NAVBAR -->
+        <header class="top-navbar">
+            <div class="nav-title">
+                CIVITRACK+ Department Dashboard - Green Services
+            </div>
+            <div class="nav-right">
+                <a href="/logout" class="logout-link" style="padding: 8px 15px; border: 1px solid #fee2e2;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+                <div class="nav-icons" style="margin-left: 10px;">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-page">
+            <div class="page-header">
+                <div class="header-title">
+                    <h2>Department Dashboard - Green Services Officer</h2>
+                    <p>{{ complaints|length }} complaints found</p>
+                </div>
+                <div class="date-badge">
+                    <i class="far fa-calendar-alt"></i>
+                    <span id="currentDate"></span>
+                </div>
+            </div>
+
+            {% if view == 'dashboard' %}
+            <!-- STATS OVERVIEW -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon icon-new">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>{{ complaints|selectattr('status', 'equalto', 'Pending')|list|length }}</h3>
+                        <p>New Complaints</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-pending">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>{{ complaints|selectattr('status', 'equalto', 'Assigned')|list|length +
+                            complaints|selectattr('status', 'equalto', 'In Progress')|list|length }}</h3>
+                        <p>Pending Complaints</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-resolved">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>{{ complaints|selectattr('status', 'equalto', 'Resolved')|list|length }}</h3>
+                        <p>Resolved Complaints</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANALYTICS SECTION -->
+            <div class="stats-grid" style="grid-template-columns: 2fr 1fr; margin-top: 20px;">
+                <div class="stat-card" style="display: block; padding: 20px;">
+                    <h4 style="margin-bottom: 20px; color: #1e293b;">Resolution Efficiency</h4>
+                    <div style="height: 300px;">
+                        <canvas id="efficiencyChart"></canvas>
+                    </div>
+                </div>
+                <div class="stat-card" style="display: block; padding: 20px;">
+                    <h4 style="margin-bottom: 20px; color: #1e293b;">Task Distribution</h4>
+                    <div style="height: 300px;">
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if view == 'complaints' %}
+            <!-- COMPLAINTS TABLE -->
+            <div class="section-card">
+                <div class="card-header">
+                    <h3>Citizen Complaints Forwarded to Green Services</h3>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search complaints...">
+                    </div>
+                </div>
+                <table class="complaint-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Address</th>
+                            <th>Citizen</th>
+                            <th>Photo</th>
+                            <th>Date Submitted</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in complaints %}
+                        <tr>
+                            <td class="complaint-id">{{ c.tracking_id or ('#GRN-' + "%03d"|format(c.id)) }}</td>
+                            <td class="complaint-title-cell">
+                                <span class="complaint-title">{{ c.title }}</span>
+                                <span class="complaint-subtitle">{{ c.description[:30] }}{% if c.description|length > 30
+                                    %}...{% endif %}</span>
+                            </td>
+                            <td>{{ c.incident_location or 'Main Street' }}</td>
+                            <td>{{ c.user_name or 'Citizen' }}</td>
+                            <td>
+                                {% if c.image %}
+                                <img src="{{ url_for('static', filename='uploads/' + c.image) }}" class="photo-img">
+                                {% else %}
+                                <div class="photo-img"
+                                    style="display: flex; align-items: center; justify-content: center; background: #f1f5f9;">
+                                    <i class="fas fa-image" style="color: #cbd5e0;"></i>
+                                </div>
+                                {% endif %}
+                            </td>
+                            <td>{{ c.created_at.strftime('%d %b %Y') }}</td>
+                            <td>
+                                <span class="status-badge status-{{ c.status.lower().replace(' ', '') }}">
+                                    {{ c.status }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if c.status == 'Pending' %}
+                                <form action="/assign_complaint/{{ c.id }}" method="POST">
+                                    <input type="hidden" name="redirect_to" value="green_dashboard">
+                                    <button type="submit" class="btn-action" style="background: #10b981;">
+                                        <i class="fas fa-user-check"></i> Assign
+                                    </button>
+                                </form>
+                                {% elif c.status == 'Assigned' %}
+                                <button type="button" class="btn-action" style="background: #22c55e;"
+                                    onclick="document.getElementById('resolve-form-{{ c.id }}').style.display='block'; this.style.display='none'">
+                                    <i class="fas fa-check-double"></i> Resolve
+                                </button>
+                                <form id="resolve-form-{{ c.id }}" action="/resolve_complaint/{{ c.id }}" method="POST"
+                                    enctype="multipart/form-data" style="display: none; margin-top: 10px;">
+                                    <input type="hidden" name="redirect_to" value="green_dashboard">
+                                    <label class="btn-choose" for="res-photo-{{ c.id }}">Step 1: Choose Photo</label>
+                                    <input type="file" id="res-photo-{{ c.id }}" name="resolved_photo" accept="image/*"
+                                        style="display: none;" onchange="this.form.submit()">
+                                    <p style="font-size: 10px; color: #64748b; margin-top: 4px;">Select photo to
+                                        complete</p>
+                                </form>
+                                {% elif c.status == 'Resolved' %}
+                                <span style="color: #22c55e; font-weight: 600;"><i class="fas fa-check"></i>
+                                    Completed</span>
+                                {% else %}
+                                <form action="/update_status/{{ c.id }}" method="POST">
+                                    <input type="hidden" name="redirect_to" value="green_dashboard">
+                                    <select name="status" onchange="this.form.submit()"
+                                        style="padding: 6px; border-radius: 6px; border: 1px solid #e2e8f0; font-size: 12px; background: white; cursor: pointer;">
+                                        <option value="Pending" {% if c.status=='Pending' %}selected{% endif %}>Pending
+                                        </option>
+                                        <option value="Assigned" {% if c.status=='Assigned' %}selected{% endif %}>
+                                            Assigned</option>
+                                        <option value="In Progress" {% if c.status=='In Progress' %}selected{% endif %}>
+                                            In Progress</option>
+                                        <option value="Resolved" {% if c.status=='Resolved' %}selected{% endif %}>
+                                            Resolved</option>
+                                    </select>
+                                </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 40px; color: #94a3b8;">No complaints
+                                assigned yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+
+            {% if view == 'reports' %}
+            <!-- REPORTS VIEW -->
+            <div class="section-card" id="printableReport" style="padding: 40px; background: white;">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #10b981; padding-bottom: 20px; margin-bottom: 30px;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <img src="{{ url_for('static', filename='images/emblem.png') }}" style="width: 50px;">
+                        <div>
+                            <h2 style="margin: 0; color: #1e293b; text-transform: uppercase; letter-spacing: 1px;">
+                                CIVITRACK+ Summary</h2>
+                            <p style="margin: 0; color: #64748b; font-size: 13px;">Official Departmental Performance
+                                Report</p>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <h3 style="margin: 0; color: #10b981;">{{ dept_name }}</h3>
+                        <p style="margin: 5px 0 0; font-size: 12px; color: #94a3b8;" id="reportGenDate"></p>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px;">
+                    <div
+                        style="background: #f8fafc; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
+                        <span
+                            style="display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Total
+                            Cases</span>
+                        <span style="font-size: 20px; font-weight: 700; color: #1e293b;">{{ complaints|length }}</span>
+                    </div>
+                    <div
+                        style="background: #f8fafc; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
+                        <span
+                            style="display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Resolved</span>
+                        <span style="font-size: 20px; font-weight: 700; color: #22c55e;">{{
+                            complaints|selectattr('status', 'equalto', 'Resolved')|list|length }}</span>
+                    </div>
+                    <div
+                        style="background: #f8fafc; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
+                        <span
+                            style="display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Pending</span>
+                        <span style="font-size: 20px; font-weight: 700; color: #f97316;">{{ complaints|length -
+                            complaints|selectattr('status', 'equalto', 'Resolved')|list|length }}</span>
+                    </div>
+                </div>
+
+                <table class="complaint-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Subject</th>
+                            <th>Citizen</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in complaints %}
+                        <tr>
+                            <td style="font-weight: 700; color: #10b981;">{{ c.tracking_id or ('#GRN-' +
+                                "%03d"|format(c.id)) }}</td>
+                            <td>{{ c.title }}</td>
+                            <td>{{ c.user_name }}</td>
+                            <td>{{ c.created_at.strftime('%d %b %Y') }}</td>
+                            <td>
+                                <span class="status-badge status-{{ c.status.lower().replace(' ', '') }}">
+                                    {{ c.status }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 40px; display: flex; justify-content: flex-end;">
+                    <button onclick="printDiv('printableReport')"
+                        style="background: #1e293b; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600;">
+                        <i class="fas fa-print"></i> Generate PDF Report
+                    </button>
+                </div>
+            </div>
+
+            <script>
+                window.onload = function () {
+                    const reportDate = document.getElementById('reportGenDate');
+                    if (reportDate) reportDate.innerText = "Generated: " + new Date().toLocaleString();
+                }
+                function printDiv(divName) {
+                    var printContents = document.getElementById(divName).innerHTML;
+                    var originalContents = document.body.innerHTML;
+
+                    var tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = printContents;
+                    var btn = tempDiv.querySelector('button');
+                    if (btn) btn.style.display = 'none';
+
+                    document.body.innerHTML = tempDiv.innerHTML;
+                    window.print();
+                    document.body.innerHTML = originalContents;
+                    window.location.reload();
+                }
+            </script>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        const date = new Date();
+        const options = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+        document.getElementById('currentDate').innerText = date.toLocaleDateString('en-US', options);
+
+        {% if view == 'dashboard' %}
+        // Efficiency Chart
+        const ctx1 = document.getElementById('efficiencyChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Resolved Tasks',
+                    data: [8, 12, 10, 14, 9, 6, 11],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        // Distribution Chart
+        const ctx2 = document.getElementById('distributionChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Pending', 'Assigned', 'Resolved'],
+                datasets: [{
+                    data: [
+                        {{ complaints| selectattr('status', 'equalto', 'Pending') | list | length }},
+                        {{ complaints| selectattr('status', 'equalto', 'Assigned') | list | length + complaints | selectattr('status', 'equalto', 'In Progress') | list | length }},
+            {{ complaints| selectattr('status', 'equalto', 'Resolved') | list | length }}
+                    ],
+            backgroundColor: ['#10b981', '#f97316', '#22c55e'],
+            borderWidth: 0
+                }]
+            },
+            options: {
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom' }
+            },
+            cutout: '70%'
+        }
+        });
+        {% endif %}
+    </script>
+</body>
+
+</html>

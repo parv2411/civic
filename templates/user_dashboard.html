@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard | CIVITRACK+</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .helpline-card,
+        .faq-card,
+        .contact-card,
+        .member-card {
+            background: #f0fdfa;
+            border: 1px solid #1e3a8a !important;
+            border-radius: 8px;
+            padding: 25px;
+            position: relative;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: default;
+        }
+
+        .helpline-card:hover,
+        .faq-card:hover,
+        .contact-card:hover,
+        .member-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(30, 58, 138, 0.15);
+            background: #ffffff;
+            border-width: 2px !important;
+        }
+
+        .helpline-card i.main-icon,
+        .faq-card i.main-icon,
+        .contact-card i.main-icon,
+        .member-card i.main-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #64748b;
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .helpline-card:hover i.main-icon,
+        .faq-card:hover i.main-icon,
+        .contact-card:hover i.main-icon,
+        .member-card:hover i.main-icon {
+            transform: scale(1.2) rotate(10deg);
+            color: #1e3a8a;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/emblem.png') }}" alt="Emblem">
+            <span>CIVITRACK+</span>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="#dashboard" class="menu-item active" data-section="dashboard-section">
+                <i class="fas fa-th-large"></i> Dashboard
+            </a>
+            <a href="#raise-complaint" class="menu-item" data-section="raise-complaint-section">
+                <i class="fas fa-plus-circle"></i> Raise Complaint
+            </a>
+            <a href="#track-complaint" class="menu-item" data-section="track-complaint-section">
+                <i class="fas fa-search-location"></i> Track Complaint
+            </a>
+            <a href="#edit-complaint" class="menu-item" data-section="edit-complaint-section">
+                <i class="fas fa-edit"></i> Edit Complaint
+            </a>
+            <a href="#delete-complaint" class="menu-item" data-section="delete-complaint-section">
+                <i class="fas fa-trash-alt"></i> Delete Complaint
+            </a>
+            <a href="#reports" class="menu-item" data-section="reports-section">
+                <i class="fas fa-file-invoice"></i> Reports
+            </a>
+            <a href="#gov-directories" class="menu-item" data-section="gov-directories-section">
+                <i class="fas fa-atlas"></i> Government Directories
+            </a>
+        </nav>
+
+
+        <div class="sidebar-footer">
+            <a href="/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </aside>
+
+    <!-- MAIN BOX -->
+    <div class="main-wrapper">
+        <!-- TOP NAV -->
+        <header class="top-nav">
+            <div class="nav-brand">
+                CIVITRACK+ User Dashboard
+            </div>
+            <div class="nav-right">
+                <div class="nav-icons">
+                    <i class="far fa-user"></i>
+                    <i class="fas fa-external-link-alt"></i>
+                </div>
+                <div class="user-profile">
+                    <span>EN</span>
+                    <img src="https://ui-avatars.com/api/?name={{ user_name }}&background=random" alt="User">
+                </div>
+                <div class="nav-icons">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <main class="content-area">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="flash-messages" style="max-width: 800px; margin: 0 auto 20px;">
+                {% for message in messages %}
+                <div class="flash-msg"
+                    style="background: #fee2e2; color: #dc2626; padding: 12px 20px; border-radius: 8px; border: 1px solid #fecaca; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-exclamation-circle"></i>
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+            <!-- DASHBOARD SECTION -->
+            <section id="dashboard-section" class="dashboard-section active">
+                <div class="welcome-header">
+                    <div class="welcome-text">
+                        <h1>Hello, {{ user_name }}</h1>
+                        <p>Welcome to the CIVITRACK User Dashboard</p>
+                    </div>
+                    <div class="date-display">
+                        <i class="far fa-calendar-alt"></i>
+                        <span id="current-date">Fri Aug 30 2024</span>
+                    </div>
+                </div>
+
+                <!-- STATS -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon pending">
+                            <i class="fas fa-hourglass-half"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="count">{{ pending }}</span>
+                            <span class="label">Pending Complaints</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon progress">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="count">{{ inprogress }}</span>
+                            <span class="label">In Progress Complaints</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon resolved">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="count">{{ resolved }}</span>
+                            <span class="label">Resolved Complaints</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TABLE -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>My Recent Complaints</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Issue</th>
+                                <th>Department</th>
+                                <th>Date Submitted</th>
+                                <th>Evidence</th>
+                                <th>Resolution Proof</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if complaints %}
+                            {% for c in complaints %}
+                            <tr>
+                                <td>{{ c.tracking_id or '#' + c.id|string }}</td>
+                                <td>{{ c.title }}</td>
+                                <td>{{ c.department }}</td>
+                                <td>{{ c.created_at.strftime('%d %b %Y') }}</td>
+                                <td>
+                                    {% if c.image %}
+                                    <a href="{{ url_for('static', filename='uploads/' + c.image) }}" target="_blank">
+                                        <img src="{{ url_for('static', filename='uploads/' + c.image) }}" alt="Evidence"
+                                            style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
+                                    </a>
+                                    {% else %}
+                                    <span style="color: #ccc;">No Photo</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if c.resolved_image %}
+                                    <a href="{{ url_for('static', filename='uploads/' + c.resolved_image) }}"
+                                        target="_blank">
+                                        <img src="{{ url_for('static', filename='uploads/' + c.resolved_image) }}"
+                                            alt="Resolved Proof"
+                                            style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; border: 2px solid #22c55e;">
+                                    </a>
+                                    {% elif c.status == 'Resolved' %}
+                                    <span style="color: #22c55e; font-size: 11px;">Completed</span>
+                                    {% else %}
+                                    <span style="color: #ccc;">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="status-badge {{ c.status.lower().replace(' ', '') }}">
+                                        {{ c.status }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <button class="btn-view" title="View"><i class="fas fa-eye"></i> View</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="8" style="text-align: center; color: #999; padding: 30px;">
+                                    No complaints found. Click "Raise Complaint" to start.
+                                </td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- RAISE COMPLAINT SECTION -->
+            <section id="raise-complaint-section" class="dashboard-section">
+                <div class="dept-selection-area">
+                    <h2 class="dept-title"
+                        style="display: flex; align-items: center; justify-content: center; gap: 20px; font-size: 28px; margin-bottom: 30px;">
+                        <span style="width: 100px; height: 1px; background: #ddd;"></span>
+                        Departments
+                        <span style="width: 100px; height: 1px; background: #ddd;"></span>
+                    </h2>
+                    <div class="dept-grid">
+                        <div class="dept-item">
+                            <i class="fas fa-road dept-icon"></i>
+                            <h3 class="dept-name">Road / PWD</h3>
+                            <a href="/submit_complaint?dept=Road / PWD" class="btn-raise">Raise Complaint</a>
+                        </div>
+                        <div class="dept-item">
+                            <i class="fas fa-tint dept-icon"></i>
+                            <h3 class="dept-name">Water Authority</h3>
+                            <a href="/submit_complaint?dept=Water Authority" class="btn-raise">Raise Complaint</a>
+                        </div>
+                        <div class="dept-item">
+                            <i class="fas fa-building dept-icon"></i>
+                            <h3 class="dept-name">Municipality</h3>
+                            <a href="/submit_complaint?dept=Municipality" class="btn-raise">Raise Complaint</a>
+                        </div>
+                        <div class="dept-item">
+                            <i class="fas fa-leaf dept-icon"></i>
+                            <h3 class="dept-name">Green Services</h3>
+                            <a href="/submit_complaint?dept=Green Services" class="btn-raise">Raise Complaint</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TRACK COMPLAINT SECTION -->
+            <section id="track-complaint-section" class="dashboard-section">
+                <div class="portal-card">
+                    <h2 style="text-align: center; margin-bottom: 30px; color: #1e293b;">TRACK COMPLAINT</h2>
+                    <form action="/track_complaint" method="POST">
+                        <div class="form-group">
+                            <label>TRACK ID :</label>
+                            <input type="text" name="track_id" required placeholder="Enter Tracking ID"
+                                value="{{ request.form.get('track_id', '') if request.method == 'POST' else '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label>Captcha :</label>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div
+                                    style="background: #e2e8f0; padding: 10px 20px; font-weight: 700; font-family: monospace; border-radius: 4px; letter-spacing: 3px;">
+                                    A314</div>
+                                <input type="text" name="captcha" placeholder="Enter Captcha" style="flex: 1;" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-submit">Submit</button>
+                    </form>
+                </div>
+
+                {% if complaint %}
+                <div class="portal-card" style="margin-top: 30px; border-left: 5px solid #3b82f6; max-width: 800px;">
+                    <h3 style="margin-bottom: 20px; color: #1e293b; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-info-circle" style="color: #3b82f6;"></i>
+                        Complaint Status: {{ complaint.tracking_id or '#' + (complaint.id|string) }}
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                        <div>
+                            <div style="margin-bottom: 12px;">
+                                <label
+                                    style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Issue
+                                    Title</label>
+                                <p style="font-weight: 500; color: #1e293b;">{{ complaint.title }}</p>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <label
+                                    style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Department</label>
+                                <p style="font-weight: 500; color: #1e293b;">{{ complaint.department }}</p>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <label
+                                    style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Current
+                                    Status</label>
+                                <div style="margin-top: 5px;">
+                                    <span class="status-badge {{ complaint.status.lower().replace(' ', '') }}">
+                                        {{ complaint.status }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <label
+                                    style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Date
+                                    Filed</label>
+                                <p style="font-weight: 500; color: #1e293b;">{{ complaint.created_at.strftime('%d %b
+                                    %Y') }}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="margin-bottom: 12px;">
+                                <label
+                                    style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Location</label>
+                                <p style="font-weight: 500; color: #1e293b;">{{ complaint.incident_location }}</p>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <label
+                                    style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Description</label>
+                                <p
+                                    style="font-size: 14px; color: #475569; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                                    {{ complaint.description }}</p>
+                            </div>
+                            {% if complaint.resolved_image %}
+                            <div>
+                                <label
+                                    style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Resolution
+                                    Proof</label>
+                                <div style="margin-top: 10px;">
+                                    <img src="{{ url_for('static', filename='uploads/' + complaint.resolved_image) }}"
+                                        style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; border: 2px solid #22c55e;">
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </section>
+
+            <!-- EDIT COMPLAINT SECTION -->
+            <section id="edit-complaint-section" class="dashboard-section">
+                <div class="portal-card">
+                    <h2 style="text-align: center; margin-bottom: 30px; color: #1e293b;">EDIT COMPLAINT</h2>
+                    <div
+                        style="background: #fffbeb; border: 1px solid #fef3c7; padding: 15px; border-radius: 8px; margin-bottom: 20px; color: #92400e;">
+                        <strong>Note:</strong> You can edit your complaint only before 48hrs.
+                    </div>
+                    <form action="/edit_complaint_portal" method="POST">
+                        <div class="form-group">
+                            <label>TRACK ID :</label>
+                            <input type="text" name="track_id" required placeholder="Enter Tracking ID">
+                        </div>
+                        <button type="submit" class="btn-submit" style="background: #f59e0b;">Submit for Edit</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- DELETE COMPLAINT SECTION -->
+            <section id="delete-complaint-section" class="dashboard-section">
+                <div class="portal-card" style="max-width: 800px;">
+                    <h2 style="text-align: center; margin-bottom: 30px; color: #1e293b;">DELETE COMPLAINT</h2>
+                    <form action="/delete_complaint_portal" method="POST">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div>
+                                <div class="form-group">
+                                    <label>TRACK ID :</label>
+                                    <input type="text" name="track_id" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Captcha :</label>
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <div
+                                            style="background: #e2e8f0; padding: 10px 20px; font-weight: 700; border-radius: 4px;">
+                                            1232</div>
+                                        <input type="text" name="captcha" placeholder="Captcha" style="flex: 1;"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <label>Reason for Deletion :</label>
+                                    <textarea name="reason"
+                                        style="width: 100%; height: 115px; padding: 12px; border: 1px solid #ddd; border-radius: 6px; resize: none;"
+                                        required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-submit" style="background: #ef4444;">Delete Complaint</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- REPORTS SECTION -->
+            <section id="reports-section" class="dashboard-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                    <h2>Status Reports</h2>
+                    <button class="btn-print" onclick="window.print()"
+                        style="background: #4a5da9; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-print"></i> Print All
+                    </button>
+                </div>
+                {% for c in complaints %}
+                <div class="report-card">
+                    <div
+                        style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">
+                        <span style="font-weight: 700; color: #3b82f6;">{{ c.tracking_id or 'COMPLAINT #' + c.id|string
+                            }}</span>
+                        <span style="font-size: 13px; color: #64748b;">{{ c.created_at.strftime('%d %b %Y') }}</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                        <div>
+                            <p><strong>Title:</strong> {{ c.title }}</p>
+                            <p><strong>Department:</strong> {{ c.department }}</p>
+                            <p><strong>Status:</strong> <span
+                                    class="status-badge {{ c.status.lower().replace(' ', '') }}">{{ c.status }}</span>
+                            </p>
+                            <p><strong>Description:</strong> {{ c.description }}</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <span
+                                style="font-size: 12px; color: #94a3b8; display: block; margin-bottom: 5px;">Evidence</span>
+                            {% if c.image %}
+                            <img src="{{ url_for('static', filename='uploads/' + c.image) }}"
+                                style="width: 100%; height: 100px; object-fit: cover; border-radius: 8px;">
+                            {% else %}
+                            <div
+                                style="height: 100px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #94a3b8;">
+                                No Image</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+
+            <!-- GOV DIRECTORIES SECTION -->
+            <section id="gov-directories-section" class="dashboard-section">
+                <div class="gov-directory-area">
+                    <h2 class="gov-title"
+                        style="display: flex; align-items: center; justify-content: center; gap: 20px; font-size: 28px; margin-bottom: 30px;">
+                        <span style="width: 150px; height: 1px; background: #ddd;"></span>
+                        Government Directories
+                        <span style="width: 150px; height: 1px; background: #ddd;"></span>
+                    </h2>
+                    <div class="gov-grid">
+                        <a href="#members" class="gov-card"
+                            onclick="showSection('members-section'); window.location.hash='#members'; return false;">
+                            <i class="fas fa-users gov-icon"></i>
+                            <h3 class="gov-name">Members</h3>
+                        </a>
+                        <a href="#contact" class="gov-card"
+                            onclick="showSection('contact-directory-section'); window.location.hash='#contact'; return false;">
+                            <i class="fas fa-address-book gov-icon"></i>
+                            <h3 class="gov-name">Contact Directory</h3>
+                        </a>
+                        <a href="#faq" class="gov-card"
+                            onclick="showSection('faq-section'); window.location.hash='#faq'; return false;">
+                            <i class="fas fa-question-circle gov-icon"></i>
+                            <h3 class="gov-name">FAQ</h3>
+                        </a>
+                        <a href="#helpline" class="gov-card"
+                            onclick="showSection('helpline-section'); window.location.hash='#helpline'; return false;">
+                            <i class="fas fa-headset gov-icon"></i>
+                            <h3 class="gov-name">Helpline</h3>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HELPLINE NUMBERS SECTION -->
+            <section id="helpline-section" class="dashboard-section">
+                <div
+                    style="background: white; border-radius: 12px; padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <div style="margin-bottom: 40px;">
+                        <h1 style="color: #1e3a8a; font-size: 32px; font-weight: 700; margin-bottom: 10px;">Helpline
+                            Numbers</h1>
+                        <p style="color: #64748b; font-size: 14px; line-height: 1.6; max-width: 800px;">
+                            This section provides a quick reference for essential services such as healthcare, research,
+                            and medical aid during emergencies or critical times.
+                        </p>
+                    </div>
+
+                    <h2
+                        style="text-align: center; color: #065f46; font-size: 24px; font-weight: 700; margin-bottom: 40px;">
+                        Emergency Numbers</h2>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;">
+                        <!-- 112 -->
+                        <div class="helpline-card">
+                            <i class="fas fa-phone-alt main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 28px; font-weight: 700; margin-bottom: 10px;">112</h3>
+                            <p
+                                style="color: #1e3a8a; font-weight: 600; font-size: 15px; line-height: 1.4; flex-grow: 1;">
+                                Integrated Emergency Response System (IERS)</p>
+                            <div style="margin-top: 15px; display: flex; gap: 12px; color: #94a3b8; font-size: 14px;">
+                                <i class="fas fa-shield-alt"></i>
+                                <i class="fas fa-bullseye"></i>
+                                <i class="fas fa-car-side"></i>
+                            </div>
+                        </div>
+
+                        <!-- 102 -->
+                        <div class="helpline-card">
+                            <i class="fas fa-ambulance main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 28px; font-weight: 700; margin-bottom: 10px;">102</h3>
+                            <p
+                                style="color: #1e293b; font-weight: 500; font-size: 15px; line-height: 1.4; flex-grow: 1;">
+                                National Ambulance Service (NAS)</p>
+                            <div style="margin-top: 15px; display: flex; gap: 12px; color: #94a3b8; font-size: 14px;">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                        </div>
+
+                        <!-- 100 -->
+                        <div class="helpline-card">
+                            <i class="fas fa-bell main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 28px; font-weight: 700; margin-bottom: 10px;">100</h3>
+                            <p
+                                style="color: #1e293b; font-weight: 500; font-size: 15px; line-height: 1.4; flex-grow: 1;">
+                                Police Helpline</p>
+                            <div style="margin-top: 15px; display: flex; gap: 12px; color: #94a3b8; font-size: 14px;">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                        </div>
+
+                        <!-- 101 -->
+                        <div class="helpline-card">
+                            <i class="fas fa-fire-extinguisher main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 28px; font-weight: 700; margin-bottom: 10px;">101</h3>
+                            <p
+                                style="color: #1e293b; font-weight: 500; font-size: 15px; line-height: 1.4; flex-grow: 1;">
+                                Fire Helpline</p>
+                            <div style="margin-top: 15px; display: flex; gap: 12px; color: #94a3b8; font-size: 14px;">
+                                <i class="fas fa-truck-moving"></i>
+                            </div>
+                        </div>
+
+                        <!-- 1930 -->
+                        <div class="helpline-card">
+                            <i class="fas fa-laptop main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 28px; font-weight: 700; margin-bottom: 10px;">1930
+                            </h3>
+                            <p
+                                style="color: #1e293b; font-weight: 500; font-size: 15px; line-height: 1.4; flex-grow: 1;">
+                                Cyber Crime Helpline</p>
+                            <div style="margin-top: 15px; display: flex; gap: 12px; color: #94a3b8; font-size: 14px;">
+                                <i class="fas fa-user-lock"></i>
+                            </div>
+                        </div>
+
+                        <!-- 1915 -->
+                        <div class="helpline-card">
+                            <i class="fas fa-shopping-cart main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 28px; font-weight: 700; margin-bottom: 10px;">1915
+                            </h3>
+                            <p
+                                style="color: #1e293b; font-weight: 500; font-size: 15px; line-height: 1.4; flex-grow: 1;">
+                                National Consumer Helpline</p>
+                            <div style="margin-top: 15px; display: flex; gap: 12px; color: #94a3b8; font-size: 14px;">
+                                <i class="fas fa-balance-scale"></i>
+                            </div>
+                        </div>
+
+                        <!-- 1933 -->
+                        <div class="helpline-card">
+                            <i class="fas fa-leaf main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 28px; font-weight: 700; margin-bottom: 10px;">1933
+                            </h3>
+                            <p
+                                style="color: #1e293b; font-weight: 500; font-size: 15px; line-height: 1.4; flex-grow: 1;">
+                                National Narcotics Helpline</p>
+                            <div style="margin-top: 15px; display: flex; gap: 12px; color: #94a3b8; font-size: 14px;">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                        </div>
+
+                        <!-- 1073 -->
+                        <div class="helpline-card">
+                            <i class="fas fa-plus-circle main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 28px; font-weight: 700; margin-bottom: 10px;">1073
+                            </h3>
+                            <p
+                                style="color: #1e293b; font-weight: 500; font-size: 15px; line-height: 1.4; flex-grow: 1;">
+                                Road Accident Helpline</p>
+                            <div style="margin-top: 15px; display: flex; gap: 12px; color: #94a3b8; font-size: 14px;">
+                                <i class="fas fa-first-aid"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- FAQ SECTION -->
+            <section id="faq-section" class="dashboard-section">
+                <div
+                    style="background: white; border-radius: 12px; padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <div style="margin-bottom: 40px;">
+                        <h1 style="color: #1e3a8a; font-size: 32px; font-weight: 700; margin-bottom: 10px;">Frequently
+                            Asked Questions</h1>
+                        <p style="color: #64748b; font-size: 14px; line-height: 1.6; max-width: 800px;">
+                            Find answers to commonly asked questions about the CIVITRACK+ portal and how to manage your
+                            complaints effectively.
+                        </p>
+                    </div>
+
+                    <h2
+                        style="text-align: center; color: #065f46; font-size: 24px; font-weight: 700; margin-bottom: 40px;">
+                        Common Queries</h2>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;">
+                        <!-- FAQ 1 -->
+                        <div class="faq-card">
+                            <i class="fas fa-plus-circle main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 18px; font-weight: 700; margin-bottom: 12px;">How to
+                                raise?</h3>
+                            <p style="color: #1e293b; font-size: 14px; line-height: 1.5; flex-grow: 1;">Go to the "Raise
+                                Complaint" section, select a department, and fill out the details including title and
+                                description.</p>
+                        </div>
+
+                        <!-- FAQ 2 -->
+                        <div class="faq-card">
+                            <i class="fas fa-search-location main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 18px; font-weight: 700; margin-bottom: 12px;">Track
+                                Status?</h3>
+                            <p style="color: #1e293b; font-size: 14px; line-height: 1.5; flex-grow: 1;">Use the "Track
+                                Complaint" section. Enter your Tracking ID and the captcha to see the current status of
+                                your issue.</p>
+                        </div>
+
+                        <!-- FAQ 3 -->
+                        <div class="faq-card">
+                            <i class="fas fa-edit main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 18px; font-weight: 700; margin-bottom: 12px;">Can I
+                                edit?</h3>
+                            <p style="color: #1e293b; font-size: 14px; line-height: 1.5; flex-grow: 1;">Yes, you can
+                                edit complaints that are still 'Pending'. Go to "Edit Complaint" to make changes to your
+                                submission.</p>
+                        </div>
+
+                        <!-- FAQ 4 -->
+                        <div class="faq-card">
+                            <i class="fas fa-trash-alt main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 18px; font-weight: 700; margin-bottom: 12px;">
+                                Deletion?</h3>
+                            <p style="color: #1e293b; font-size: 14px; line-height: 1.5; flex-grow: 1;">Deleting a
+                                complaint removes it permanently from the system. Use "Delete Complaint" if the issue is
+                                no longer relevant.</p>
+                        </div>
+
+                        <!-- FAQ 5 -->
+                        <div class="faq-card">
+                            <i class="fas fa-clock main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 18px; font-weight: 700; margin-bottom: 12px;">Time
+                                frame?</h3>
+                            <p style="color: #1e293b; font-size: 14px; line-height: 1.5; flex-grow: 1;">Resolution time
+                                varies by department. You will receive updates as the status changes from Pending to
+                                Resolved.</p>
+                        </div>
+
+                        <!-- FAQ 6 -->
+                        <div class="faq-card">
+                            <i class="fas fa-building main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 18px; font-weight: 700; margin-bottom: 12px;">
+                                Departments?</h3>
+                            <p style="color: #1e293b; font-size: 14px; line-height: 1.5; flex-grow: 1;">We support
+                                various departments including PWD, Health, Electricity, and more for comprehensive civic
+                                tracking.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONTACT DIRECTORY SECTION -->
+            <section id="contact-directory-section" class="dashboard-section">
+                <div
+                    style="background: white; border-radius: 12px; padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <div style="margin-bottom: 40px;">
+                        <h1 style="color: #1e3a8a; font-size: 32px; font-weight: 700; margin-bottom: 10px;">Contact
+                            Directory</h1>
+                        <p style="color: #64748b; font-size: 14px; line-height: 1.6; max-width: 800px;">
+                            Quick access to official contact information for various government departments and key
+                            officials.
+                        </p>
+                    </div>
+
+                    <h2
+                        style="text-align: center; color: #065f46; font-size: 24px; font-weight: 700; margin-bottom: 40px;">
+                        Departmental Contacts</h2>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;">
+                        <!-- Contact Card 1 -->
+                        <div class="contact-card">
+                            <i class="fas fa-road main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 18px; font-weight: 700; margin-bottom: 12px;">PWD
+                                Office</h3>
+                            <p style="color: #1e293b; font-size: 14px; line-height: 1.5; flex-grow: 1;">
+                                <strong>Email:</strong> pwd@city.gov.in<br><strong>Location:</strong> Civil Station,
+                                Room 204
+                            </p>
+                            <div style="margin-top: 15px; color: #1e3a8a; font-weight: 600;"><i
+                                    class="fas fa-phone"></i> 0471-2300400</div>
+                        </div>
+
+                        <!-- Contact Card 2 -->
+                        <div class="contact-card">
+                            <i class="fas fa-tint main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 18px; font-weight: 700; margin-bottom: 12px;">Water
+                                Authority</h3>
+                            <p style="color: #1e293b; font-size: 14px; line-height: 1.5; flex-grow: 1;">
+                                <strong>Email:</strong> water@city.gov.in<br><strong>Location:</strong> Jal Bhavan,
+                                Sector 4
+                            </p>
+                            <div style="margin-top: 15px; color: #1e3a8a; font-weight: 600;"><i
+                                    class="fas fa-phone"></i> 0471-2300500</div>
+                        </div>
+
+                        <!-- Contact Card 3 -->
+                        <div class="contact-card">
+                            <i class="fas fa-bolt main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 18px; font-weight: 700; margin-bottom: 12px;">
+                                Electricity Board</h3>
+                            <p style="color: #1e293b; font-size: 14px; line-height: 1.5; flex-grow: 1;">
+                                <strong>Email:</strong> kseb@city.gov.in<br><strong>Location:</strong> Vydyuthi Bhavanam
+                            </p>
+                            <div style="margin-top: 15px; color: #1e3a8a; font-weight: 600;"><i
+                                    class="fas fa-phone"></i> 0471-2300600</div>
+                        </div>
+
+                        <!-- Contact Card 4 -->
+                        <div class="contact-card">
+                            <i class="fas fa-building main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 18px; font-weight: 700; margin-bottom: 12px;">
+                                Municipality</h3>
+                            <p style="color: #1e293b; font-size: 14px; line-height: 1.5; flex-grow: 1;">
+                                <strong>Email:</strong> corp@city.gov.in<br><strong>Location:</strong> Town Hall Complex
+                            </p>
+                            <div style="margin-top: 15px; color: #1e3a8a; font-weight: 600;"><i
+                                    class="fas fa-phone"></i> 0471-2300700</div>
+                        </div>
+
+                        <!-- Contact Card 5 -->
+                        <div class="contact-card">
+                            <i class="fas fa-hospital main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 18px; font-weight: 700; margin-bottom: 12px;">Health
+                                Dept.</h3>
+                            <p style="color: #1e293b; font-size: 14px; line-height: 1.5; flex-grow: 1;">
+                                <strong>Email:</strong> health@city.gov.in<br><strong>Location:</strong> Medical College
+                                Office
+                            </p>
+                            <div style="margin-top: 15px; color: #1e3a8a; font-weight: 600;"><i
+                                    class="fas fa-phone"></i> 0471-2300800</div>
+                        </div>
+
+                        <!-- Contact Card 6 -->
+                        <div class="contact-card">
+                            <i class="fas fa-graduation-cap main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 18px; font-weight: 700; margin-bottom: 12px;">
+                                Education Dept.</h3>
+                            <p style="color: #1e293b; font-size: 14px; line-height: 1.5; flex-grow: 1;">
+                                <strong>Email:</strong> edu@city.gov.in<br><strong>Location:</strong> Vidya Bhavan,
+                                Block B
+                            </p>
+                            <div style="margin-top: 15px; color: #1e3a8a; font-weight: 600;"><i
+                                    class="fas fa-phone"></i> 0471-2300900</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MEMBERS SECTION -->
+            <section id="members-section" class="dashboard-section">
+                <div
+                    style="background: white; border-radius: 12px; padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <div style="margin-bottom: 40px;">
+                        <h1 style="color: #1e3a8a; font-size: 32px; font-weight: 700; margin-bottom: 10px;">Executive
+                            Members</h1>
+                        <p style="color: #64748b; font-size: 14px; line-height: 1.6; max-width: 800px;">
+                            Meet the executive members and department heads responsible for grievance redressal and
+                            urban development.
+                        </p>
+                    </div>
+
+                    <h2
+                        style="text-align: center; color: #065f46; font-size: 24px; font-weight: 700; margin-bottom: 40px;">
+                        Board of Directors</h2>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;">
+                        <!-- Member Card 1 -->
+                        <div class="member-card">
+                            <img src="https://ui-avatars.com/api/?name=John+Doe&background=1e3a8a&color=fff&size=128"
+                                style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #f0fdfa;">
+                            <i class="fas fa-award main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 20px; font-weight: 700; margin-bottom: 5px;">John Doe
+                            </h3>
+                            <p style="color: #065f46; font-weight: 600; font-size: 14px; margin-bottom: 10px;">Chief
+                                Commissioner</p>
+                            <p style="color: #64748b; font-size: 13px; line-height: 1.4; flex-grow: 1;">Oversees all
+                                municipal operations and high-level grievance policies.</p>
+                        </div>
+
+                        <!-- Member Card 2 -->
+                        <div class="member-card">
+                            <img src="https://ui-avatars.com/api/?name=Sarah+Smith&background=1e3a8a&color=fff&size=128"
+                                style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #f0fdfa;">
+                            <i class="fas fa-shield-alt main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 20px; font-weight: 700; margin-bottom: 5px;">Sarah
+                                Smith</h3>
+                            <p style="color: #065f46; font-weight: 600; font-size: 14px; margin-bottom: 10px;">Public
+                                Relations Officer</p>
+                            <p style="color: #64748b; font-size: 13px; line-height: 1.4; flex-grow: 1;">Manages citizen
+                                communication and awareness programs.</p>
+                        </div>
+
+                        <!-- Member Card 3 -->
+                        <div class="member-card">
+                            <img src="https://ui-avatars.com/api/?name=Michael+Ray&background=1e3a8a&color=fff&size=128"
+                                style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #f0fdfa;">
+                            <i class="fas fa-tools main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 20px; font-weight: 700; margin-bottom: 5px;">Michael
+                                Ray</h3>
+                            <p style="color: #065f46; font-weight: 600; font-size: 14px; margin-bottom: 10px;">Chief
+                                Engineer (PWD)</p>
+                            <p style="color: #64748b; font-size: 13px; line-height: 1.4; flex-grow: 1;">Specialist in
+                                urban infrastructure and road maintenance oversight.</p>
+                        </div>
+
+                        <!-- Member Card 4 -->
+                        <div class="member-card">
+                            <img src="https://ui-avatars.com/api/?name=Priya+Sharma&background=1e3a8a&color=fff&size=128"
+                                style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #f0fdfa;">
+                            <i class="fas fa-stethoscope main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 20px; font-weight: 700; margin-bottom: 5px;">Dr. Priya
+                                Sharma</h3>
+                            <p style="color: #065f46; font-weight: 600; font-size: 14px; margin-bottom: 10px;">Health
+                                Director</p>
+                            <p style="color: #64748b; font-size: 13px; line-height: 1.4; flex-grow: 1;">Leads public
+                                health initiatives and medical grievance resolution.</p>
+                        </div>
+
+                        <!-- Member Card 5 -->
+                        <div class="member-card">
+                            <img src="https://ui-avatars.com/api/?name=Robert+Chen&background=1e3a8a&color=fff&size=128"
+                                style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #f0fdfa;">
+                            <i class="fas fa-leaf main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 20px; font-weight: 700; margin-bottom: 5px;">Robert
+                                Chen</h3>
+                            <p style="color: #065f46; font-weight: 600; font-size: 14px; margin-bottom: 10px;">
+                                Environment Lead</p>
+                            <p style="color: #64748b; font-size: 13px; line-height: 1.4; flex-grow: 1;">Head of
+                                pollution control and city green-space development.</p>
+                        </div>
+
+                        <!-- Member Card 6 -->
+                        <div class="member-card">
+                            <img src="https://ui-avatars.com/api/?name=Anita+Verma&background=1e3a8a&color=fff&size=128"
+                                style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #f0fdfa;">
+                            <i class="fas fa-balance-scale main-icon"></i>
+                            <h3 style="color: #1e3a8a; font-size: 20px; font-weight: 700; margin-bottom: 5px;">Anita
+                                Verma</h3>
+                            <p style="color: #065f46; font-weight: 600; font-size: 14px; margin-bottom: 10px;">Legal
+                                Advisor</p>
+                            <p style="color: #64748b; font-size: 13px; line-height: 1.4; flex-grow: 1;">Ensures all
+                                municipal actions comply with judicial guidelines.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Set actual date
+        const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+        if (document.getElementById('current-date')) {
+            document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', options);
+        }
+
+        // Section switching logic
+        const menuItems = document.querySelectorAll('.menu-item');
+        const sections = document.querySelectorAll('.dashboard-section');
+
+        function showSection(sectionId) {
+            sections.forEach(s => s.classList.remove('active'));
+            menuItems.forEach(m => m.classList.remove('active'));
+
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                // Find matching menu item
+                const matchingMenu = document.querySelector(`[data-section="${sectionId}"]`);
+                if (matchingMenu) matchingMenu.classList.add('active');
+            }
+        }
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                const href = item.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    window.location.hash = href;
+                }
+            });
+        });
+
+        function handleNavigation() {
+            const hash = window.location.hash;
+
+            // 1. Priority: Performance check for server-side paths (for POST results)
+            if (!hash) {
+                {% if request.path == url_for('track_complaint') %}
+                showSection('track-complaint-section');
+                return;
+                {% elif request.path == url_for('delete_complaint_portal') %}
+                showSection('delete-complaint-section');
+                return;
+                {% elif request.path == url_for('edit_complaint_portal') %}
+                showSection('edit-complaint-section');
+                return;
+                {% endif %}
+            }
+
+            // 2. Fallback to hash or default
+            const activeHash = hash || '#dashboard';
+
+            // Special handling for sections not in the sidebar
+            if (activeHash === '#helpline') {
+                showSection('helpline-section');
+                return;
+            }
+            if (activeHash === '#faq') {
+                showSection('faq-section');
+                return;
+            }
+            if (activeHash === '#contact') {
+                showSection('contact-directory-section');
+                return;
+            }
+            if (activeHash === '#members') {
+                showSection('members-section');
+                return;
+            }
+
+            // Normal sidebar sections
+            const activeItem = document.querySelector(`[href="${activeHash}"]`);
+            if (activeItem) {
+                showSection(activeItem.getAttribute('data-section'));
+            }
+        }
+
+        // Handle initial load and back/forward
+        window.addEventListener('hashchange', handleNavigation);
+        window.addEventListener('load', handleNavigation);
+    </script>
+</body>
+
+</html>

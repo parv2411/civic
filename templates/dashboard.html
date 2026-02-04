@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIVITRACK | Unified Civic Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- TOP HEADERS -->
+    <div class="top-banners">
+        <h1 class="main-title">Unified Civic Management System</h1>
+        <h2 class="sub-page-title">CIVITRACK+ Main dashboard</h2>
+    </div>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="nav-left">
+            <div class="logo-box">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+        </div>
+        <div class="nav-center">
+            <span class="nav-brand-text">CIVITRACK+</span>
+        </div>
+        <div class="nav-right">
+            <div class="nav-action-buttons">
+                <a href="#" class="skip-btn">SKIP TO MAIN</a>
+                <button class="icon-btn accessibility-btn" title="Accessibility">
+                    <i class="fas fa-universal-access"></i>
+                </button>
+                <button class="icon-btn translate-btn" title="Translate">
+                    <i class="fas fa-language"></i>
+                </button>
+                <button class="icon-btn menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="header-brand">
+                <img src="{{ url_for('static', filename='images/emblem.png') }}" class="emblem-small"
+                    alt="National Emblem">
+                <span class="brand-text">CIVITRACK+</span>
+            </div>
+
+            <div class="main-hero-text">
+                <h1 class="welcome-text">Welcome to <span class="highlight">CIVITRACK+</span></h1>
+                <h2 class="hero-subheading">Unified Civic Management System</h2>
+
+                <div class="feature-bullets">
+                    <span>Report Issues</span>
+                    <span class="bullet">•</span>
+                    <span>Track Complaints</span>
+                    <span class="bullet">•</span>
+                    <span>Improve Civic Services</span>
+                </div>
+
+                <p class="hero-description">
+                    Engage with your local authorities easily through CIVITRACK+. Submit complaints about civic issues
+                    like road damage, water leaks, garbage collection, and power outages. Track the status of your
+                    complaints in real-time and help improve your community.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="/register" class="btn btn-get-started">GET STARTED</a>
+                    <a href="/login" class="btn btn-login-outline">LOGIN</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- STATS BAR AT THE BOTTOM -->
+        <div class="stats-bar">
+            <div class="stat-box">
+                <i class="fas fa-users stat-icon-main"></i>
+                <span class="stat-num">{{ citizens }}</span>
+                <span class="stat-text">Citizens</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-box">
+                <i class="fas fa-clipboard-list stat-icon-main"></i>
+                <span class="stat-num">{{ total }}</span>
+                <span class="stat-text">Total Complaints</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-box">
+                <i class="fas fa-hourglass-half stat-icon-main"></i>
+                <span class="stat-num">{{ pending }}</span>
+                <span class="stat-text">Pending</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-box">
+                <i class="fas fa-check-double stat-icon-main"></i>
+                <span class="stat-num">{{ resolved }}</span>
+                <span class="stat-text">Resolved</span>
+            </div>
+        </div>
+    </section>
+
+
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+
+</html>

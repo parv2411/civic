@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Complaint - CiviTrack</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/portals.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="portal-body">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/emblem.png') }}" alt="Emblem">
+            <span>CIVITRACK+</span>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="/user_dashboard" class="menu-item">
+                <i class="fas fa-th-large"></i> Dashboard
+            </a>
+            <a href="/raise_complaint" class="menu-item">
+                <i class="fas fa-plus-circle"></i> Raise Complaint
+            </a>
+            <a href="/track_complaint" class="menu-item">
+                <i class="fas fa-search-location"></i> Track Complaint
+            </a>
+            <a href="/edit_complaint_portal" class="menu-item">
+                <i class="fas fa-edit"></i> Edit Complaint
+            </a>
+            <a href="/delete_complaint_portal" class="menu-item active">
+                <i class="fas fa-trash-alt"></i> Delete Complaint
+            </a>
+            <a href="/user_reports" class="menu-item">
+                <i class="fas fa-file-invoice"></i> Reports
+            </a>
+            <a href="/government_directories" class="menu-item">
+                <i class="fas fa-atlas"></i> Government Directories
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <header class="top-nav">
+            <div class="nav-brand">Delete Complaint</div>
+            <div class="nav-right">
+                <div class="user-profile">
+                    <span>{{ user_name }}</span>
+                    <img src="https://ui-avatars.com/api/?name={{ user_name }}&background=random" alt="User">
+                </div>
+            </div>
+        </header>
+        <main class="portal-container">
+            <h1 class="portal-title">Delete Complaint</h1>
+
+            <div class="portal-card">
+                <div class="card-header">
+                    <h2>DELETE COMPLAINT</h2>
+                </div>
+
+                <form action="/delete_complaint_portal" method="POST">
+                    <div style="display: flex; gap: 2rem;">
+                        <div style="flex: 1;">
+                            <div class="form-group">
+                                <label for="track_id">TRACK ID :</label>
+                                <input type="text" id="track_id" name="track_id" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Captcha :</label>
+                                <div class="captcha-container">
+                                    <div class="captcha-box">1232</div>
+                                    <i class="fas fa-sync-alt refresh-icon"></i>
+                                    <input type="text" placeholder="Enter Captcha"
+                                        style="margin-left: 10px; width: 120px;" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="flex: 1;">
+                            <div class="form-group" style="align-items: flex-start;">
+                                <label for="reason">Reason :</label>
+                                <textarea id="reason" name="reason"
+                                    style="flex: 1; height: 100px; padding: 10px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none;"
+                                    required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submit-container">
+                        <button type="submit" class="btn-submit">Submit</button>
+                    </div>
+                </form>
+
+                {% if success %}
+                <div class="success-msg-box">
+                    <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+                    <p style="color: var(--primary-green); font-weight: 700; font-size: 1.2rem;">Deleted successfully
+                    </p>
+                </div>
+                {% endif %}
+
+                {% for message in get_flashed_messages() %}
+                <p style="color: #dc2626; text-align: center; margin-top: 1rem;">{{ message }}</p>
+                {% endfor %}
+
+                <div class="connect-section">
+                    <h3>CONNECT WITH US</h3>
+                    <div class="social-icons-row">
+                        <a href="#" class="social-icon-btn si-fb"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon-btn si-tw"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon-btn si-li"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon-btn si-pi"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

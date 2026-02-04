@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - CiviTrack</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/success.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-accents">
+        <div class="accent-yellow"></div>
+        <div class="accent-green"></div>
+    </div>
+
+    <main class="success-container">
+        <div class="success-content">
+            <div class="check-icon">
+                <i class="fas fa-check"></i>
+            </div>
+
+            <h1>Thank you!</h1>
+
+            <p class="subtitle">
+                We've sent you a copy to your inbox so it's easy to access. Your Complaint ID is <strong>#{{ tracking_id
+                    }}</strong>. Please make sure to save it for tracking and future changes.
+            </p>
+
+            <div class="info-cards">
+                <div class="card connect-card">
+                    <h2>Connect With Us</h2>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon fb"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon li"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon pi"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#" class="social-icon tw"><i class="fab fa-twitter"></i></a>
+                    </div>
+                    <p>connect us on various platforms</p>
+                </div>
+
+                <div class="card website-card">
+                    <h2>Visit Our Website</h2>
+                    <a href="{{ url_for('user_dashboard') }}" class="btn-visit">Visit Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

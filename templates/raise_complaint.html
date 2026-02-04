@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raise Complaint | CIVITRACK+</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .dept-selection-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            padding: 40px;
+        }
+
+        .dept-title {
+            font-size: 32px;
+            font-weight: 500;
+            color: #222;
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .dept-title::before,
+        .dept-title::after {
+            content: '';
+            width: 100px;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .dept-grid {
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            border: 1px solid #edf0f5;
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .dept-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .dept-icon {
+            font-size: 40px;
+            color: #1e6d5b;
+            margin-bottom: 20px;
+        }
+
+        .dept-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .btn-raise {
+            background: #1e6d5b;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-raise:hover {
+            background: #165345;
+            transform: translateY(-2px);
+        }
+
+        .dept-arrow {
+            display: flex;
+            align-items: center;
+            color: #cbd5e0;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body style="background-color: #f4f6fa;">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/emblem.png') }}" alt="Emblem">
+            <span>CIVITRACK+</span>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="/user_dashboard" class="menu-item">
+                <i class="fas fa-th-large"></i> Dashboard
+            </a>
+            <a href="/raise_complaint" class="menu-item active">
+                <i class="fas fa-plus-circle"></i> Raise Complaint
+            </a>
+            <a href="/track_complaint" class="menu-item">
+                <i class="fas fa-search-location"></i> Track Complaint
+            </a>
+            <a href="/edit_complaint_portal" class="menu-item">
+                <i class="fas fa-edit"></i> Edit Complaint
+            </a>
+            <a href="/delete_complaint_portal" class="menu-item">
+                <i class="fas fa-trash-alt"></i> Delete Complaint
+            </a>
+            <a href="/user_reports" class="menu-item">
+                <i class="fas fa-file-invoice"></i> Reports
+            </a>
+            <a href="/government_directories" class="menu-item">
+                <i class="fas fa-atlas"></i> Government Directories
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <!-- TOP NAV -->
+        <header class="top-nav">
+            <div class="nav-brand">
+                CIVITRACK+ User Dashboard
+            </div>
+            <div class="nav-right">
+                <div class="nav-icons">
+                    <i class="far fa-user"></i>
+                    <i class="fas fa-external-link-alt"></i>
+                </div>
+                <div class="user-profile">
+                    <span>EN</span>
+                    <img src="https://ui-avatars.com/api/?name={{ user_name }}&background=random" alt="User">
+                </div>
+                <div class="nav-icons">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </header>
+
+        <div class="dept-selection-area">
+            <h2 class="dept-title">Departments</h2>
+
+            <div class="dept-grid">
+                <div class="dept-item">
+                    <i class="fas fa-road dept-icon"></i>
+                    <h3 class="dept-name">Road / PWD</h3>
+                    <a href="/submit_complaint?dept=Road / PWD" class="btn-raise">Raise Complaint</a>
+                </div>
+
+                <div class="dept-arrow"><i class="fas fa-chevron-right"></i></div>
+
+                <div class="dept-item">
+                    <i class="fas fa-tint dept-icon"></i>
+                    <h3 class="dept-name">Water Authority</h3>
+                    <a href="/submit_complaint?dept=Water Authority" class="btn-raise">Raise Complaint</a>
+                </div>
+
+                <div class="dept-arrow"><i class="fas fa-chevron-right"></i></div>
+
+                <div class="dept-item">
+                    <i class="fas fa-building dept-icon"></i>
+                    <h3 class="dept-name">Municipality</h3>
+                    <a href="/submit_complaint?dept=Municipality" class="btn-raise">Raise Complaint</a>
+                </div>
+
+                <div class="dept-arrow"><i class="fas fa-chevron-right"></i></div>
+
+                <div class="dept-item">
+                    <i class="fas fa-leaf dept-icon"></i>
+                    <h3 class="dept-name">Green Services</h3>
+                    <a href="/submit_complaint?dept=Green Services" class="btn-raise">Raise Complaint</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

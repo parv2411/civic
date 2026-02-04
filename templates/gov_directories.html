@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Directories | CIVITRACK+</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .gov-directory-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            padding: 40px;
+        }
+
+        .gov-title {
+            font-size: 32px;
+            font-weight: 500;
+            color: #222;
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .gov-title::before,
+        .gov-title::after {
+            content: '';
+            width: 150px;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .gov-grid {
+            display: flex;
+            padding: 20px;
+            max-width: 1100px;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .gov-card {
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            border: 1px solid #edf0f5;
+            flex: 1;
+            min-width: 180px;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .gov-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .gov-icon {
+            font-size: 50px;
+            color: #1e6d5b;
+            margin-bottom: 25px;
+        }
+
+        .gov-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            text-transform: uppercase;
+            line-height: 1.4;
+        }
+
+        .gov-arrow {
+            color: #cbd5e0;
+            font-size: 18px;
+        }
+
+        .bottom-arrow {
+            margin-top: 40px;
+            font-size: 40px;
+            color: #cbd5e0;
+        }
+    </style>
+</head>
+
+<body style="background-color: #f4f6fa;">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/emblem.png') }}" alt="Emblem">
+            <span>CIVITRACK+</span>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="/user_dashboard" class="menu-item">
+                <i class="fas fa-th-large"></i>
+                Dashboard
+            </a>
+            <a href="/raise_complaint" class="menu-item">
+                <i class="fas fa-plus-circle"></i>
+                Raise Complaint
+                <a href="/track_complaint" class="menu-item">
+                    <i class="fas fa-search-location"></i> Track Complaint
+                </a>
+                <a href="/edit_complaint_portal" class="menu-item">
+                    <i class="fas fa-edit"></i> Edit Complaint
+                </a>
+                <a href="/delete_complaint_portal" class="menu-item">
+                    <i class="fas fa-trash-alt"></i> Delete Complaint
+                </a>
+                <a href="/user_reports" class="menu-item">
+                    <i class="fas fa-file-invoice"></i> Reports
+                </a>
+                <a href="/government_directories" class="menu-item active">
+                    <i class="fas fa-atlas"></i> Government Directories
+                </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <!-- TOP NAV -->
+        <header class="top-nav">
+            <div class="nav-brand">
+                CIVITRACK+ User Dashboard
+            </div>
+            <div class="nav-right">
+                <div class="nav-icons">
+                    <i class="far fa-user"></i>
+                    <i class="fas fa-external-link-alt"></i>
+                </div>
+                <div class="user-profile">
+                    <span>EN</span>
+                    <img src="https://ui-avatars.com/api/?name={{ user_name }}&background=random" alt="User">
+                </div>
+                <div class="nav-icons">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </header>
+
+        <div class="gov-directory-area">
+            <h2 class="gov-title">Government Directories</h2>
+
+            <div class="gov-grid">
+                <!-- MEMBERS -->
+                <a href="#" class="gov-card">
+                    <div class="gov-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="gov-name">Members</h3>
+                </a>
+
+                <div class="gov-arrow"><i class="fas fa-chevron-right"></i></div>
+
+                <!-- CONTACT DIRECTORY -->
+                <a href="#" class="gov-card">
+                    <div class="gov-icon">
+                        <i class="fas fa-address-book"></i>
+                    </div>
+                    <h3 class="gov-name">Contact<br>Directory</h3>
+                </a>
+
+                <div class="gov-arrow"><i class="fas fa-chevron-right"></i></div>
+
+                <!-- FAQ -->
+                <a href="#" class="gov-card">
+                    <div class="gov-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3 class="gov-name">FAQ</h3>
+                </a>
+
+                <div class="gov-arrow"><i class="fas fa-chevron-right"></i></div>
+
+                <!-- HELPLINE -->
+                <a href="#" class="gov-card">
+                    <div class="gov-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="gov-name">Helpline</h3>
+                </a>
+            </div>
+
+
+        </div>
+    </div>
+
+</body>
+
+</html>
