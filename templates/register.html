@@ -16,12 +16,20 @@
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <div class="auth-brand">
-                    <img src="{{ url_for('static', filename='images/emblem.png') }}" class="auth-emblem" alt="Emblem">
-                    <span>CIVITRACK+</span>
+                <div
+                    style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                    <div class="auth-brand">
+                        <img src="{{ url_for('static', filename='images/emblem.png') }}" class="auth-emblem"
+                            alt="Emblem">
+                        <span data-i18n="brand">CIVITRACK+</span>
+                    </div>
+                    <button class="translate-btn"
+                        style="background: #f1f5f9; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 14px; color: #1e3a8a; font-weight: 600;">
+                        <i class="fas fa-language"></i> <span>EN</span>
+                    </button>
                 </div>
-                <h1 class="auth-title">Register to CIVITRACK+</h1>
-                <p class="auth-subtitle">Unified Civic Management System</p>
+                <h1 class="auth-title" data-i18n="register_title">Register to CIVITRACK+</h1>
+                <p class="auth-subtitle" data-i18n="main_title">Unified Civic Management System</p>
             </div>
 
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -39,43 +47,53 @@
             <form class="auth-form" action="/register" method="POST">
                 <div class="form-row">
                     <div class="input-group">
-                        <label for="name"><i class="fas fa-user"></i> Full Name</label>
-                        <input type="text" id="name" name="name" placeholder="Name" required>
+                        <label for="name"><i class="fas fa-user"></i> <span data-i18n="full_name">Full
+                                Name</span></label>
+                        <input type="text" id="name" name="name" data-i18n="full_name" placeholder="Name" required>
                     </div>
 
                     <div class="input-group">
-                        <label for="place"><i class="fas fa-location-dot"></i> Place</label>
-                        <input type="text" id="place" name="place" placeholder="City" required>
+                        <label for="place"><i class="fas fa-location-dot"></i> <span
+                                data-i18n="place">Place</span></label>
+                        <input type="text" id="place" name="place" data-i18n="place" placeholder="City" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="input-group">
-                        <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
-                        <input type="tel" id="phone" name="phone" placeholder="+91 00000 00000" required>
+                        <label for="phone"><i class="fas fa-phone"></i> <span data-i18n="phone">Phone
+                                Number</span></label>
+                        <input type="tel" id="phone" name="phone" data-i18n="phone" placeholder="+91 00000 00000"
+                            required>
                     </div>
 
                     <div class="input-group">
-                        <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="example@example.com" required>
+                        <label for="email"><i class="fas fa-envelope"></i> <span data-i18n="email">Email
+                                Address</span></label>
+                        <input type="email" id="email" name="email" data-i18n="email" placeholder="example@example.com"
+                            required>
                     </div>
                 </div>
 
                 <div class="input-group">
-                    <label for="password"><i class="fas fa-lock"></i> Create Password</label>
-                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                    <label for="password"><i class="fas fa-lock"></i> <span data-i18n="password">Create
+                            Password</span></label>
+                    <input type="password" id="password" name="password" data-i18n="password" placeholder="••••••••"
+                        required>
                 </div>
 
-                <button type="submit" class="btn-auth">Register</button>
+                <button type="submit" class="btn-auth" data-i18n="register_btn">Register</button>
             </form>
 
             <div class="auth-footer">
-                Already have an account? <a href="/login">Login here</a>
+                <span data-i18n="already_account">Already have an account?</span> <a href="/login"
+                    data-i18n="login_here">Login here</a>
             </div>
 
             <p class="copyright">© 2026 CIVITRACK+ | All rights reserved.</p>
         </div>
     </div>
+    <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
 </body>
 
 </html>

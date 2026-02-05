@@ -5,19 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CIVITRACK | Unified Civic Management System</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;700&display=swap"
         rel="stylesheet">
+    <style>
+        .icon-btn.translate-btn {
+            width: auto !important;
+            padding: 0 15px !important;
+            border-radius: 20px !important;
+            gap: 8px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .icon-btn.translate-btn span {
+            font-size: 13px !important;
+            font-weight: 600 !important;
+        }
+
+        .feature-bullets {
+            flex-wrap: wrap !important;
+            gap: 15px 25px !important;
+            line-height: 1.4 !important;
+            justify-content: center !important;
+        }
+
+        .welcome-text {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 10px 20px !important;
+            width: 100% !important;
+        }
+    </style>
 </head>
 
 <body>
 
     <!-- TOP HEADERS -->
     <div class="top-banners">
-        <h1 class="main-title">Unified Civic Management System</h1>
-        <h2 class="sub-page-title">CIVITRACK+ Main dashboard</h2>
+        <h1 class="main-title" data-i18n="main_title">Unified Civic Management System</h1>
+        <h2 class="sub-page-title" data-i18n="sub_page_title">CIVITRACK+ Main Dashboard</h2>
     </div>
 
     <!-- NAVBAR -->
@@ -27,19 +60,21 @@
                 <i class="fas fa-shield-alt"></i>
             </div>
         </div>
+
         <div class="nav-center">
-            <span class="nav-brand-text">CIVITRACK+</span>
+            <span class="nav-brand-text" data-i18n="brand">CIVITRACK+</span>
         </div>
+
         <div class="nav-right">
             <div class="nav-action-buttons">
-                <a href="#" class="skip-btn">SKIP TO MAIN</a>
-                <button class="icon-btn accessibility-btn" title="Accessibility">
-                    <i class="fas fa-universal-access"></i>
-                </button>
+                <!-- Accessibility REMOVED -->
+
                 <button class="icon-btn translate-btn" title="Translate">
                     <i class="fas fa-language"></i>
+                    <span>EN</span>
                 </button>
-                <button class="icon-btn menu-btn">
+
+                <button class="icon-btn menu-btn" title="Menu">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
@@ -49,69 +84,80 @@
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-overlay"></div>
+
         <div class="hero-content">
             <div class="header-brand">
                 <img src="{{ url_for('static', filename='images/emblem.png') }}" class="emblem-small"
                     alt="National Emblem">
-                <span class="brand-text">CIVITRACK+</span>
+                <span class="brand-text" data-i18n="brand">CIVITRACK+</span>
             </div>
 
             <div class="main-hero-text">
-                <h1 class="welcome-text">Welcome to <span class="highlight">CIVITRACK+</span></h1>
-                <h2 class="hero-subheading">Unified Civic Management System</h2>
+                <h1 class="welcome-text">
+                    <span data-i18n="welcome">Welcome to</span> <span class="highlight"
+                        data-i18n="brand">CIVITRACK+</span>
+                </h1>
+
+                <h2 class="hero-subheading" data-i18n="main_title">Unified Civic Management System</h2>
 
                 <div class="feature-bullets">
-                    <span>Report Issues</span>
+                    <span data-i18n="report_issues">Report Issues</span>
                     <span class="bullet">•</span>
-                    <span>Track Complaints</span>
+                    <span data-i18n="track_complaints">Track Complaints</span>
                     <span class="bullet">•</span>
-                    <span>Improve Civic Services</span>
+                    <span data-i18n="improve_services">Improve Civic Services</span>
                 </div>
 
-                <p class="hero-description">
-                    Engage with your local authorities easily through CIVITRACK+. Submit complaints about civic issues
-                    like road damage, water leaks, garbage collection, and power outages. Track the status of your
+                <p class="hero-description" data-i18n="description">
+                    Engage with your local authorities easily through CIVITRACK+.
+                    Submit complaints about civic issues like road damage, water leaks,
+                    garbage collection, and power outages. Track the status of your
                     complaints in real-time and help improve your community.
                 </p>
 
                 <div class="hero-buttons">
-                    <a href="/register" class="btn btn-get-started">GET STARTED</a>
-                    <a href="/login" class="btn btn-login-outline">LOGIN</a>
+                    <a href="/register" class="btn btn-get-started" data-i18n="get_started">GET STARTED</a>
+                    <a href="/login" class="btn btn-login-outline" data-i18n="login_btn">LOGIN</a>
                 </div>
             </div>
         </div>
 
-        <!-- STATS BAR AT THE BOTTOM -->
+        <!-- STATS BAR -->
         <div class="stats-bar">
             <div class="stat-box">
                 <i class="fas fa-users stat-icon-main"></i>
                 <span class="stat-num">{{ citizens }}</span>
-                <span class="stat-text">Citizens</span>
+                <span class="stat-text" data-i18n="citizens">Citizens</span>
             </div>
+
             <div class="stat-divider"></div>
+
             <div class="stat-box">
                 <i class="fas fa-clipboard-list stat-icon-main"></i>
                 <span class="stat-num">{{ total }}</span>
-                <span class="stat-text">Total Complaints</span>
+                <span class="stat-text" data-i18n="total_complaints">Total Complaints</span>
             </div>
+
             <div class="stat-divider"></div>
+
             <div class="stat-box">
                 <i class="fas fa-hourglass-half stat-icon-main"></i>
                 <span class="stat-num">{{ pending }}</span>
-                <span class="stat-text">Pending</span>
+                <span class="stat-text" data-i18n="pending">Pending</span>
             </div>
+
             <div class="stat-divider"></div>
+
             <div class="stat-box">
                 <i class="fas fa-check-double stat-icon-main"></i>
                 <span class="stat-num">{{ resolved }}</span>
-                <span class="stat-text">Resolved</span>
+                <span class="stat-text" data-i18n="resolved">Resolved</span>
             </div>
         </div>
     </section>
 
-
-
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
 </body>
 
 </html>

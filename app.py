@@ -724,5 +724,75 @@ def logout():
     session.clear()
     return redirect(url_for("login"))
 
+@app.route("/chat", methods=["POST"])
+def chat():
+    if 'user_id' not in session:
+        return {"response": "Please login to chat with me."}, 401
+    
+    user_id = session['user_id']
+    user_message = request.json.get("message", "").lower().strip()
+    
+    # Initialize chat history in session if not exists
+    if 'chat_history' not in session:
+        session['chat_history'] = []
+    
+    # Keep last 5 messages for context
+    session['chat_history'] = session['chat_history'][-4:] + [user_message]
+    session.modified = True
+
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM complaints WHERE user_id = %s", (user_id,))
+    user_complaints = cursor.fetchall()
+    cursor.close()
+    db.close()
+
+    # --- INTELLIGENT ROUTING LOGIC ---
+    response = ""
+    
+    # 1. Intent: Greeting
+    if any(greet in user_message for greet in ["hello", "hi", "hey", "good morning"]):
+        response = f"Hi {session.get('user_name')}! I'm your Civic AI assistant. I've analyzed your account and found {len(user_complaints)} reports. How can I assist you today?"
+        
+    # 2. Intent: Complaint Analysis / Status
+    elif any(word in user_message for word in ["status", "track", "my", "progress", "update"]):
+        if not user_complaints:
+            response = "I searched our records and found NO complaints for your account. Would you like to file one now? <br><button onclick=\"window.location.hash='#raise-complaint'; document.getElementById('chatContainer').style.display='none';\" class='chat-action-btn'>Raise New Complaint</button>"
+        else:
+            recent = user_complaints[-1]
+            response = f"I've retrieved your most recent report: <strong>{recent['title']}</strong>. It's currently in <strong>{recent['status']}</strong> status. <br><br>Would you like me to check any other specific report?"
+            response += "<br><button onclick=\"window.location.hash='#track-complaint';\" class='chat-action-btn'>Track Activity</button>"
+
+    # 3. Intent: Department Suggestion (AI Predictive)
+    elif any(word in user_message for word in ["pothole", "road", "street", "broken", "pavement"]):
+        response = "I detected you might be talking about a <strong>Road/Infrastructure</strong> issue. In our system, these are handled by the <strong>PWD Department</strong>. <br><button onclick=\"window.location.hash='#raise-complaint';\" class='chat-action-btn'>File PWD Complaint</button>"
+    elif any(word in user_message for word in ["water", "leak", "pipe", "sewage", "drain"]):
+        response = "Analysis suggests a <strong>Utilities/Water</strong> issue. I recommend contacting the <strong>Water Authority</strong>. <br><button onclick=\"window.location.hash='#raise-complaint';\" class='chat-action-btn'>File Water Complaint</button>"
+    
+    # 4. Intent: Raise Complaint
+    elif any(word in user_message for word in ["raise", "file", "submit", "new complaint", "complain", "report"]):
+        response = "You can raise a new complaint in the <strong>Raise Complaint</strong> section of your dashboard. Just pick a department and fill out the form. <br><button onclick=\"window.location.hash='#raise-complaint'; document.getElementById('chatContainer').style.display='none';\" class='chat-action-btn'>Raise Complaint Now</button>"
+
+    # 5. Intent: Guidance
+    elif any(word in user_message for word in ["how", "help", "do", "guide", "where", "what"]):
+        response = "I'm equipped to help you with: <br>• Real-time complaint tracking <br>• Intelligent department routing <br>• Accessing local government directories <br><br>What would you like to explore first?"
+
+    # 6. Intent: Deletion/Editing
+    elif "edit" in user_message or "change" in user_message:
+        response = "To update a report, go to the <strong>Edit Section</strong>. I only allow edits for 'Pending' items to maintain record integrity. <br><button onclick=\"window.location.hash='#edit-complaint';\" class='chat-action-btn'>Go to Edit Portal</button>"
+    elif "delete" in user_message or "remove" in user_message:
+        response = "I can see you want to remove a record. Please use the <strong>Delete Section</strong> with your specialized Tracking ID. <br><button onclick=\"window.location.hash='#delete-complaint';\" class='chat-action-btn'>Go to Delete Portal</button>"
+
+    # 7. Fallback (Conversational AI Simulation)
+    else:
+        # Check context from previous message
+        prev_context = session['chat_history'][-2] if len(session['chat_history']) > 1 else ""
+        if "status" in prev_context:
+            response = f"You were just asking about status. I've noted that. Is there a specific tracking ID you want me to look up for you?"
+        else:
+            response = "I'm processing your request... I'm not 100% sure about that, but I can help you find departmental contacts or track your existing complaints. Could you clarify your question?"
+
+    return {"response": response}
+
 if __name__ == "__main__":
     app.run(debug=True)

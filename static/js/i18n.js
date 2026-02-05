@@ -1,0 +1,319 @@
+const translations = {
+    'en': {
+        'title': 'CIVITRACK | Unified Civic Management System',
+        'main_title': 'Unified Civic Management System',
+        'sub_page_title': 'CIVITRACK+ Main Dashboard',
+        'brand': 'CIVITRACK+',
+        'welcome': 'Welcome to',
+        'report_issues': 'Report Issues',
+        'track_complaints': 'Track Complaints',
+        'improve_services': 'Improve Civic Services',
+        'description': 'Engage with your local authorities easily through CIVITRACK+. Submit complaints about civic issues like road damage, water leaks, garbage collection, and power outages. Track the status of your complaints in real-time and help improve your community.',
+        'get_started': 'GET STARTED',
+        'login_btn': 'LOGIN',
+        'citizens': 'Citizens',
+        'total_complaints': 'Total Complaints',
+        'pending': 'Pending',
+        'resolved': 'Resolved',
+        'inprogress': 'In Progress',
+        'login_title': 'Login to CIVITRACK+',
+        'full_name': 'Full Name',
+        'password': 'Password',
+        'forgot_password': 'Forgot Password?',
+        'no_account': "Don't have an account?",
+        'register_here': 'Register here',
+        'register_title': 'Register to CIVITRACK+',
+        'already_account': 'Already have an account?',
+        'login_here': 'Login here',
+        'user_dashboard_title': 'CIVITRACK+ User Dashboard',
+        'sidebar_dashboard': 'Dashboard',
+        'sidebar_raise': 'Raise Complaint',
+        'sidebar_track': 'Track Complaint',
+        'sidebar_edit': 'Edit Complaint',
+        'sidebar_delete': 'Delete Complaint',
+        'sidebar_reports': 'Reports',
+        'sidebar_directories': 'Government Directories',
+        'logout': 'Logout',
+        'welcome_user': 'Hello,',
+        'welcome_msg': 'Welcome to the CIVITRACK User Dashboard',
+        'recent_complaints': 'My Recent Complaints',
+        'table_id': 'ID',
+        'table_issue': 'Issue',
+        'table_dept': 'Department',
+        'table_date': 'Date Submitted',
+        'table_evidence': 'Evidence',
+        'table_proof': 'Resolution Proof',
+        'table_status': 'Status',
+        'table_actions': 'Actions',
+        'no_complaints': 'No complaints found. Click "Raise Complaint" to start.',
+        'pothole_info': 'I detected you might be talking about a Road issue.',
+        'water_info': 'Analysis suggests a Utilities/Water issue.',
+        'chat_welcome': "Hello! I'm Civibot. How can I assist you today?",
+        'thinking': 'Civibot is thinking...',
+        'placeholder': 'Type your message...',
+        'email': 'Email',
+        'phone': 'Phone Number',
+        'place': 'Place',
+        'register_btn': 'REGISTER',
+        'departments_title': 'Departments',
+        'dept_road': 'Road / PWD',
+        'dept_water': 'Water Authority',
+        'dept_municipality': 'Municipality',
+        'dept_green': 'Green Services',
+        'track_title': 'TRACK COMPLAINT',
+        'track_id_label': 'TRACK ID :',
+        'captcha_label': 'Captcha :',
+        'submit_btn': 'Submit',
+        'edit_title': 'EDIT COMPLAINT',
+        'edit_note': 'Note: You can edit your complaint only before 48hrs.',
+        'edit_submit': 'Submit for Edit',
+        'delete_title': 'DELETE COMPLAINT',
+        'delete_reason': 'Reason for Deletion :',
+        'delete_btn': 'Delete Complaint',
+        'reports_title': 'Status Reports',
+        'print_all': 'Print All',
+        'gov_dir_title': 'Government Directories',
+        'members': 'Members',
+        'contact_dir': 'Contact Directory',
+        'faq': 'FAQ',
+        'helpline': 'Helpline',
+        'helpline_numbers': 'Helpline Numbers',
+        'helpline_desc': 'This section provides a quick reference for essential services such as healthcare, research, and medical aid during emergencies or critical times.',
+        'emergency_numbers': 'Emergency Numbers',
+        'iers_title': 'Integrated Emergency Response System (IERS)',
+        'nas_title': 'National Ambulance Service (NAS)',
+        'police_helpline': 'Police Helpline',
+        'fire_helpline': 'Fire Helpline',
+        'cyber_helpline': 'Cyber Crime Helpline',
+        'consumer_helpline': 'National Consumer Helpline',
+        'narcotics_helpline': 'National Narcotics Helpline',
+        'road_helpline': 'Road Accident Helpline',
+        'faq_desc': 'Find answers to commonly asked questions about the CIVITRACK+ portal and how to manage your complaints effectively.',
+        'common_queries': 'Common Queries',
+        'faq1_title': 'How to raise?',
+        'faq1_desc': 'Go to the "Raise Complaint" section, select a department, and fill out the details including title and description.',
+        'faq2_title': 'Track Status?',
+        'faq2_desc': 'Use the "Track Complaint" section. Enter your Tracking ID and the captcha to see the current status of your issue.',
+        'faq3_title': 'Can I edit?',
+        'faq3_desc': 'Yes, you can edit complaints that are still \'Pending\'. Go to "Edit Complaint" to make changes to your submission.',
+        'faq4_title': 'Deletion?',
+        'faq4_desc': 'Deleting a complaint removes it permanently from the system. Use "Delete Complaint" if the issue is no longer relevant.',
+        'faq5_title': 'Time frame?',
+        'faq5_desc': 'Resolution time varies by department. You will receive updates as the status changes from Pending to Resolved.',
+        'faq6_title': 'Departments?',
+        'faq6_desc': 'We support various departments including PWD, Health, Electricity, and more for comprehensive civic tracking.',
+        'contact_dir_desc': 'Quick access to official contact information for various government departments and key officials.',
+        'dept_contacts': 'Departmental Contacts',
+        'pwd_office': 'PWD Office',
+        'water_auth': 'Water Authority',
+        'kseb_office': 'Electricity Board',
+        'health_dept': 'Health Dept.',
+        'edu_dept': 'Education Dept.',
+        'email_label': 'Email:',
+        'location_label': 'Location:',
+        'exec_members': 'Executive Members',
+        'members_desc': 'Meet the executive members and department heads responsible for grievance redressal and urban development.',
+        'board_directors': 'Board of Directors',
+        'chief_comm': 'Chief Commissioner',
+        'chief_comm_desc': 'Oversees all municipal operations and high-level grievance policies.',
+        'pro_title': 'Public Relations Officer',
+        'pro_desc': 'Manages citizen communication and awareness programs.',
+        'chief_eng': 'Chief Engineer (PWD)',
+        'chief_eng_desc': 'Specialist in urban infrastructure and road maintenance oversight.',
+        'health_dir': 'Health Director',
+        'health_dir_desc': 'Leads public health initiatives and medical grievance resolution.',
+        'env_lead': 'Environment Lead',
+        'env_lead_desc': 'Head of pollution control and city green-space development.',
+        'legal_adv': 'Legal Advisor',
+        'legal_adv_desc': 'Ensures all municipal actions comply with judicial guidelines.',
+        'chat_title': 'Civibot AI'
+    },
+    'ml': {
+        'title': 'സിവി ട്രാക്ക് | ഏകീകൃത സിവിക് മാനേജ്‌മെന്റ് സിസ്റ്റം',
+        'main_title': 'ഏകീകൃത സിവിക് മാനേജ്‌മെന്റ് സിസ്റ്റം',
+        'sub_page_title': 'സിവി ട്രാക്ക്+ മെയിൻ ഡാഷ്‌ബോർഡ്',
+        'brand': 'സിവി ട്രാക്ക്+',
+        'welcome': 'സിവി ട്രാക്കിലേക്ക് സ്വാഗതം',
+        'report_issues': 'പരാതികൾ റിപ്പോർട്ട് ചെയ്യുക',
+        'track_complaints': 'പരാതികൾ പരിശോധിക്കൂ',
+        'improve_services': 'സിവിക് സേവനങ്ങൾ വികസിപ്പിക്കുക',
+        'description': 'സിവി ട്രാക്ക്+ വഴി നിങ്ങളുടെ പ്രാദേശിക അധികാരികളുമായി എളുപ്പത്തിൽ ബന്ധപ്പെടുക. റോഡ് അറ്റകുറ്റപ്പണികൾ, വാട്ടർ ലീക്കേജ്, മാലിന്യ നിർമ്മാർജ്ജനം, വൈദ്യുതി മുടക്കം തുടങ്ങിയ പ്രശ്നങ്ങളെക്കുറിച്ച് പരാതികൾ നൽകാം.',
+        'get_started': 'തുടങ്ങാം',
+        'login_btn': 'ലോഗിൻ',
+        'citizens': 'പൗരന്മാർ',
+        'total_complaints': 'ആകെ പരാതികൾ',
+        'pending': 'തീർപ്പുകൽപ്പിക്കാത്തവ',
+        'resolved': 'പരിഹരിച്ചവ',
+        'inprogress': 'പുരോഗമിക്കുന്നു',
+        'login_title': 'സിവി ട്രാക്കിലേക്ക് ലോഗിൻ ചെയ്യുക',
+        'full_name': 'പൂർണ്ണനാമം',
+        'password': 'പാസ്‌വേർഡ്',
+        'forgot_password': 'പാസ്‌വേർഡ് മറന്നോ?',
+        'no_account': 'അക്കൗണ്ട് ഇല്ലേ?',
+        'register_here': 'ഇവിടെ രജിസ്റ്റർ ചെയ്യുക',
+        'register_title': 'സിവി ട്രാക്കിലേക്ക് രജിസ്റ്റർ ചെയ്യുക',
+        'already_account': 'നിങ്ങൾക്ക് ഇതിനകം അക്കൗണ്ട് ഉണ്ടോ?',
+        'login_here': 'ഇവിടെ ലോഗിൻ ചെയ്യുക',
+        'user_dashboard_title': 'സിവി ട്രാക്ക്+ യൂസർ ഡാഷ്‌ബോർഡ്',
+        'sidebar_dashboard': 'ഡാഷ്‌ബോർഡ്',
+        'sidebar_raise': 'പരാതി സമർപ്പിക്കുക',
+        'sidebar_track': 'പരാതി പരിശോധിക്കൂ',
+        'sidebar_edit': 'പരാതി മാറ്റുക',
+        'sidebar_delete': 'പരാതി നീക്കം ചെയ്യുക',
+        'sidebar_reports': 'റിപ്പോർട്ടുകൾ',
+        'sidebar_directories': 'ഗവൺമെന്റ് ഡയറക്ടറികൾ',
+        'logout': 'ലോഗൗട്ട്',
+        'welcome_user': 'നമസ്കാരം,',
+        'welcome_msg': 'സിവി ട്രാക്ക് യൂസർ ഡാഷ്‌ബോർഡിലേക്ക് സ്വാഗതം',
+        'recent_complaints': 'സമീപകാലത്തെ പരാതികൾ',
+        'table_id': 'ഐഡി (ID)',
+        'table_issue': 'വിഷയം',
+        'table_dept': 'വകുപ്പ്',
+        'table_date': 'തിയതി',
+        'table_evidence': 'തെളിവുകൾ',
+        'table_proof': 'പരിഹാര തെളിവ്',
+        'table_status': 'അവസ്ഥ (Status)',
+        'table_actions': 'പ്രവർത്തനങ്ങൾ',
+        'no_complaints': 'പരാതികളൊന്നും കണ്ടെത്തിയില്ല.',
+        'pothole_info': 'റോഡുമായി ബന്ധപ്പെട്ട ഒരു പരാതിയെക്കുറിച്ചാണ് നിങ്ങൾ സംസാരിക്കുന്നതെന്ന് തോന്നുന്നു.',
+        'water_info': 'കുടിവെള്ളവുമായി ബന്ധപ്പെട്ട ഒരു പരാതിയെക്കുറിച്ചാണ് നിങ്ങൾ സംസാരിക്കുന്നതെന്ന് തോന്നുന്നു.',
+        'chat_welcome': 'നമസ്കാരം! ഞാൻ സിവിബോട്ട്. ഞാൻ നിങ്ങളെ എങ്ങനെ സഹായിക്കണം?',
+        'thinking': 'സിവിബോട്ട് ചിന്തിക്കുന്നു...',
+        'placeholder': 'നിങ്ങളുടെ സന്ദേശം ഇവിടെ നൽകുക...',
+        'email': 'ഇമെയിൽ',
+        'phone': 'ഫോൺ നമ്പർ',
+        'place': 'സ്ഥലം',
+        'register_btn': 'രജിസ്റ്റർ ചെയ്യുക',
+        'departments_title': 'വകുപ്പുകൾ (Departments)',
+        'dept_road': 'റോഡ് / പി.ഡബ്ല്യു.ഡി (PWD)',
+        'dept_water': 'വാട്ടർ അതോറിറ്റി',
+        'dept_municipality': 'മുനിസിപ്പാലിറ്റി',
+        'dept_green': 'ഗ്രീൻ സർവീസസ്',
+        'track_title': 'പരാതികൾ പരിശോധിക്കൂ',
+        'track_id_label': 'ട്രാക്ക് ഐഡി (Track ID) :',
+        'captcha_label': 'ക്യാപ്‌ച (Captcha) :',
+        'submit_btn': 'സമർപ്പിക്കുക',
+        'edit_title': 'പരാതി മാറ്റുക',
+        'edit_note': 'ശ്രദ്ധിക്കുക: 48 മണിക്കൂറിനുള്ളിൽ മാത്രമേ നിങ്ങളുട പരാതികളിൽ മാറ്റങ്ങൾ വരുത്താൻ സാധിക്കൂ.',
+        'edit_submit': 'മാറ്റങ്ങൾക്കായി സമർപ്പിക്കുക',
+        'delete_title': 'പരാതി നീക്കം ചെയ്യുക',
+        'delete_reason': 'നീക്കം ചെയ്യാനുള്ള കാരണം :',
+        'delete_btn': 'പരാതി നീക്കം ചെയ്യുക',
+        'reports_title': 'സ്റ്റാറ്റസ് റിപ്പോർട്ടുകൾ',
+        'print_all': 'പ്രിന്റ് എടുക്കുക',
+        'gov_dir_title': 'ഗവൺമെന്റ് ഡയറക്ടറികൾ',
+        'members': 'അംഗങ്ങൾ',
+        'contact_dir': 'കോൺടാക്റ്റ് ഡയറക്ടറി',
+        'faq': 'പതിവുചോദ്യങ്ങൾ (FAQ)',
+        'helpline': 'ഹെൽപ്പ്‌ലൈൻ',
+        'helpline_numbers': 'ഹെൽപ്പ്‌ലൈൻ നമ്പറുകൾ',
+        'helpline_desc': 'അടിയന്തിര സാഹചര്യങ്ങളിൽ ആരോഗ്യ സംരക്ഷണം, വൈദ്യസഹായം തുടങ്ങിയ അത്യാവശ്യ സേവനങ്ങൾക്കായി ഈ വിഭാഗം ഉപയോഗിക്കാം.',
+        'emergency_numbers': 'അടിയന്തര നമ്പറുകൾ',
+        'iers_title': 'Integrated Emergency Response System (IERS)',
+        'nas_title': 'നാഷണൽ ആംബുലൻസ് സർവീസ് (NAS)',
+        'police_helpline': 'പോലീസ് ഹെൽപ്പ്‌ലൈൻ',
+        'fire_helpline': 'ഫയർ ഹെൽപ്പ്‌ലൈൻ',
+        'cyber_helpline': 'സൈബർ ക്രൈം ഹെൽപ്പ്‌ലൈൻ',
+        'consumer_helpline': 'നാഷണൽ കൺസ്യൂമർ ഹെൽപ്പ്‌ലൈൻ',
+        'narcotics_helpline': 'നാഷണൽ നാർക്കോട്ടിക്സ് ഹെൽപ്പ്‌ലൈൻ',
+        'road_helpline': 'റോഡ് അപകട ഹെൽപ്പ്‌ലൈൻ',
+        'faq_desc': 'സിവി ട്രാക്ക്+ പോർട്ടലിനെക്കുറിച്ചും നിങ്ങളുടെ പരാതികൾ എങ്ങനെ കൈകാര്യം ചെയ്യാം എന്നതിനെക്കുറിച്ചും സാധാരണയായി ചോദിക്കാറുള്ള ചോദ്യങ്ങൾക്കുള്ള ഉത്തരങ്ങൾ ഇവിടെ കണ്ടെത്താം.',
+        'common_queries': 'സാധാരണ സംശയങ്ങൾ',
+        'faq1_title': 'എങ്ങനെ പരാതി നൽകാം?',
+        'faq1_desc': '"പരാതി സമർപ്പിക്കുക" എന്ന വിഭാഗത്തിൽ പോയി ഒരു വകുപ്പ് തിരഞ്ഞെടുത്ത് വിവരങ്ങൾ നൽകുക.',
+        'faq2_title': 'അവസ്ഥ എങ്ങനെ പരിശോധിക്കാം?',
+        'faq2_desc': '"പരാതി പരിശോധിക്കൂ" എന്ന വിഭാഗം ഉപയോഗിക്കുക. നിങ്ങളുടെ ട്രാക്കിംഗ് ഐഡിയും ക്യാപ്‌ചയും നൽകി അവസ്ഥ പരിശോധിക്കാം.',
+        'faq3_title': 'മാറ്റങ്ങൾ വരുത്താനാകുമോ?',
+        'faq3_desc': 'അതെ, "തീർപ്പുകൽപ്പിക്കാത്തവ" (Pending) എന്ന അവസ്ഥയിലുള്ള പരാതികളിൽ മാറ്റങ്ങൾ വരുത്താം.',
+        'faq4_title': 'നീക്കം ചെയ്യാനാകുമോ?',
+        'faq4_desc': 'പരാതി നീക്കം ചെയ്യുന്നത് സിസ്റ്റത്തിൽ നിന്ന് അതിനെ സ്ഥിരമായി ഇല്ലാതാക്കും. ആവശ്യമില്ലാത്ത പരാതികൾ നീക്കം ചെയ്യാം.',
+        'faq5_title': 'എത്ര സമയം എടുക്കും?',
+        'faq5_desc': 'പരാതികൾ പരിഹരിക്കാനുള്ള സമയം വകുപ്പുകൾക്കനുസരിച്ച് മാറും. സ്റ്റാറ്റസ് മാറുന്നതിനനുസരിച്ച് നിങ്ങൾക്ക് വിവരങ്ങൾ ലഭിക്കും.',
+        'faq6_title': 'ഏതൊക്കെ വകുപ്പുകൾ?',
+        'faq6_desc': 'പി.ഡബ്ല്യു.ഡി, ആരോഗ്യം, കെ.എസ്.ഇ.ബി തുടങ്ങിയ വിവിധ വകുപ്പുകളെ ഞങ്ങൾ പിന്തുണയ്ക്കുന്നു.',
+        'contact_dir_desc': 'വിവിധ സർക്കാർ വകുപ്പുകളുടെയും ഉദ്യോഗസ്ഥരുടെയും ഔദ്യോഗിക വിവരങ്ങൾ ഇവിടെ ലഭ്യമാണ്.',
+        'dept_contacts': 'വകുപ്പുതല ബന്ധങ്ങൾ',
+        'pwd_office': 'പി.ഡബ്ല്യു.ഡി ഓഫീസ്',
+        'water_auth': 'വാട്ടർ അതോറിറ്റി',
+        'kseb_office': 'ഇലക്ട്രിസിറ്റി ബോർഡ് (KSEB)',
+        'health_dept': 'ആരോഗ്യ വകുപ്പ്',
+        'edu_dept': 'വിദ്യാഭ്യാസ വകുപ്പ്',
+        'email_label': 'ഇമെയിൽ:',
+        'location_label': 'സ്ഥലം:',
+        'exec_members': 'എക്സിക്യൂട്ടീവ് അംഗങ്ങൾ',
+        'members_desc': 'പരാതി പരിഹാരത്തിനും നഗര വികസനത്തിനും ഉത്തരവാദിത്തമുള്ള അംഗങ്ങളെയും വകുപ്പ് മേധാവികളെയും ഇവിടെ പരിചയപ്പെടാം.',
+        'board_directors': 'ബോർഡ് ഓഫ് ഡയറക്ടേഴ്സ്',
+        'chief_comm': 'ചീഫ് കമ്മീഷണർ',
+        'chief_comm_desc': 'നഗരസഭയുടെ എല്ലാ പ്രവർത്തനങ്ങൾക്കും പരാതി പരിഹാര നയങ്ങൾക്കും മേൽനോട്ടം വഹിക്കുന്നു.',
+        'pro_title': 'പബ്ലിക് റിലേഷൻസ് ഓഫീസർ',
+        'pro_desc': 'പൗരന്മാരുമായുള്ള ആശയവിനിമയത്തിനും ബോധവൽക്കരണ പരിപാടികൾക്കും നേതൃത്വം നൽകുന്നു.',
+        'chief_eng': 'ചീഫ് എഞ്ചിനീയർ (PWD)',
+        'chief_eng_desc': 'നഗര അടിസ്ഥാന സൗകര്യങ്ങളിലും റോഡ് അറ്റകുറ്റപ്പണിയിലും മേൽനോട്ടം വഹിക്കുന്നു.',
+        'health_dir': 'ഹെൽത്ത് ഡയറക്ടർ',
+        'health_dir_desc': 'പൊതുജനാരോഗ്യ പദ്ധതികൾക്കും മെഡിക്കൽ പരാതി പരിഹാരത്തിനും നേതൃത്വം നൽകുന്നു.',
+        'env_lead': 'പരിസ്ഥിതി വിഭാഗം മേധാവി',
+        'env_lead_desc': 'മലിനീകരണ നിയന്ത്രണത്തിനും നഗര ഹരിതവൽക്കരണത്തിനും നേതൃത്വം നൽകുന്നു.',
+        'legal_adv': 'നിയമ ഉപദേഷ്ടാവ്',
+        'legal_adv_desc': 'എല്ലാ പ്രവർത്തനങ്ങളും നിയമപരമായ മാർഗ്ഗനിർദ്ദേശങ്ങൾ പാലിക്കുന്നുണ്ടെന്ന് ഉറപ്പാക്കുന്നു.',
+        'chat_title': 'സിവിബോട്ട് AI'
+    }
+};
+
+function applyTranslations(lang) {
+    const elements = document.querySelectorAll('[data-i18n]');
+    elements.forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.placeholder = translations[lang][key];
+            } else {
+                el.innerHTML = translations[lang][key];
+            }
+        }
+    });
+
+    // Update Translate Button Text
+    const translateBtns = document.querySelectorAll('.translate-btn');
+    translateBtns.forEach(btn => {
+        const langText = lang === 'en' ? 'EN' : 'ML';
+        const span = btn.querySelector('span');
+        if (span) {
+            span.textContent = langText;
+        } else {
+            // Fallback for buttons without spans (just text)
+            const icon = btn.querySelector('i');
+            if (icon) {
+                btn.innerHTML = '';
+                btn.appendChild(icon);
+                btn.appendChild(document.createTextNode(' ' + langText));
+            } else {
+                btn.textContent = langText;
+            }
+        }
+    });
+
+    // Save preference
+    localStorage.setItem('preferred_lang', lang);
+
+    // Update direction for languages if needed
+    document.documentElement.lang = lang;
+
+    // Dispatch event for other listeners
+    window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
+}
+
+function initI18n() {
+    const savedLang = localStorage.getItem('preferred_lang') || 'en';
+    applyTranslations(savedLang);
+
+    const translateBtns = document.querySelectorAll('.translate-btn');
+    translateBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const currentLang = localStorage.getItem('preferred_lang') || 'en';
+            const nextLang = currentLang === 'en' ? 'ml' : 'en';
+            applyTranslations(nextLang);
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initI18n);

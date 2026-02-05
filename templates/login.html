@@ -16,12 +16,20 @@
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <div class="auth-brand">
-                    <img src="{{ url_for('static', filename='images/emblem.png') }}" class="auth-emblem" alt="Emblem">
-                    <span>CIVITRACK+</span>
+                <div
+                    style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                    <div class="auth-brand">
+                        <img src="{{ url_for('static', filename='images/emblem.png') }}" class="auth-emblem"
+                            alt="Emblem">
+                        <span data-i18n="brand">CIVITRACK+</span>
+                    </div>
+                    <button class="translate-btn"
+                        style="background: #f1f5f9; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 14px; color: #1e3a8a; font-weight: 600;">
+                        <i class="fas fa-language"></i> <span>EN</span>
+                    </button>
                 </div>
-                <h1 class="auth-title">Login to CIVITRACK+</h1>
-                <p class="auth-subtitle">Unified Civic Management System</p>
+                <h1 class="auth-title" data-i18n="login_title">Login to CIVITRACK+</h1>
+                <p class="auth-subtitle" data-i18n="main_title">Unified Civic Management System</p>
             </div>
 
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -38,26 +46,29 @@
 
             <form class="auth-form" action="/login" method="POST">
                 <div class="input-group">
-                    <label for="name"><i class="fas fa-user"></i> Full Name</label>
-                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    <label for="name"><i class="fas fa-user"></i> <span data-i18n="full_name">Full Name</span></label>
+                    <input type="text" id="name" name="name" data-i18n="full_name" placeholder="Enter your full name"
+                        required>
                 </div>
 
                 <div class="input-group">
-                    <a href="#" class="forgot-password">Forgot Password?</a>
-                    <label for="password"><i class="fas fa-lock"></i> Password</label>
+                    <a href="#" class="forgot-password" data-i18n="forgot_password">Forgot Password?</a>
+                    <label for="password"><i class="fas fa-lock"></i> <span data-i18n="password">Password</span></label>
                     <input type="password" id="password" name="password" placeholder="••••••••" required>
                 </div>
 
-                <button type="submit" class="btn-auth">Login</button>
+                <button type="submit" class="btn-auth" data-i18n="login_btn">Login</button>
             </form>
 
             <div class="auth-footer">
-                Don't have an account? <a href="/register">Register here</a>
+                <span data-i18n="no_account">Don't have an account?</span> <a href="/register"
+                    data-i18n="register_here">Register here</a>
             </div>
 
             <p class="copyright">© 2026 CIVITRACK+ | All rights reserved.</p>
         </div>
     </div>
+    <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
 </body>
 
 </html>
