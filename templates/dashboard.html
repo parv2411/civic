@@ -74,8 +74,19 @@
                     <span>EN</span>
                 </button>
 
-                <button class="icon-btn menu-btn" title="Menu">
-                    <i class="fas fa-bars"></i>
+                <button class="icon-btn home-btn" title="Home">
+                    <i class="fas fa-home"></i>
+                    <span data-i18n="home_btn">Home</span>
+                </button>
+
+                <button class="icon-btn departments-btn" title="Departments">
+                    <i class="fas fa-building"></i>
+                    <span data-i18n="departments_btn">Departments</span>
+                </button>
+
+                <button class="icon-btn about-btn" title="About">
+                    <i class="fas fa-info-circle"></i>
+                    <span data-i18n="about_btn">About</span>
                 </button>
             </div>
         </div>
@@ -155,6 +166,139 @@
             </div>
         </div>
     </section>
+
+    <!-- DEPARTMENTS SECTION -->
+    <section id="departments-section" class="departments-section">
+        <div class="departments-container">
+            <h2 class="departments-title" data-i18n="departments_section_title">Our Departments</h2>
+            <p class="departments-subtitle" data-i18n="departments_subtitle">Government departments working together to
+                serve you better</p>
+
+            <div class="departments-grid">
+                <div class="department-card">
+                    <div class="department-icon">
+                        <i class="fas fa-road"></i>
+                    </div>
+                    <h3 data-i18n="dept_pwd">Public Works Department</h3>
+                    <p data-i18n="dept_pwd_desc">Handles road maintenance, infrastructure development, and public
+                        construction projects</p>
+                </div>
+
+                <div class="department-card">
+                    <div class="department-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3 data-i18n="dept_water">Water Resources</h3>
+                    <p data-i18n="dept_water_desc">Manages water supply, drainage systems, and resolves water-related
+                        issues</p>
+                </div>
+
+                <div class="department-card">
+                    <div class="department-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 data-i18n="dept_municipal">Municipal Services</h3>
+                    <p data-i18n="dept_municipal_desc">Oversees waste management, sanitation, and general civic
+                        amenities</p>
+                </div>
+
+                <div class="department-card">
+                    <div class="department-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 data-i18n="dept_green">Green & Environmental</h3>
+                    <p data-i18n="dept_green_desc">Manages parks, pollution control, and environmental conservation
+                        initiatives</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about-section" class="about-section-inline">
+        <div class="about-container">
+            <h2 class="about-title" data-i18n="about_title">About CIVITRACK+</h2>
+
+            <div class="about-content-grid">
+                <div class="about-section">
+                    <div class="about-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 data-i18n="mission_title">Our Mission</h3>
+                    <p data-i18n="mission_text">
+                        CIVITRACK+ is a unified civic management system designed to bridge the gap between citizens and
+                        local authorities.
+                        Our platform empowers communities to report civic issues like road damage, water leaks, garbage
+                        collection,
+                        and power outages efficiently. Track your complaint status in real-time and help improve your
+                        community.
+                    </p>
+                </div>
+
+                <div class="about-section">
+                    <div class="about-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 data-i18n="features_title">Key Features</h3>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle"></i> <span data-i18n="feature_1">Easy complaint registration
+                                with photo evidence</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span data-i18n="feature_2">Real-time complaint tracking
+                                system</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span data-i18n="feature_3">Multi-department support
+                                (PWD, Water, Municipality, Green Services)</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span data-i18n="feature_4">Multilingual interface
+                                (English & Malayalam)</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span data-i18n="feature_5">Transparent
+                                citizen-government engagement</span></li>
+                    </ul>
+                </div>
+
+                <div class="about-section">
+                    <div class="about-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 data-i18n="contact_title">Contact Us</h3>
+                    <p data-i18n="contact_text">
+                        Have questions or feedback? We'd love to hear from you.<br>
+                        <strong>Email:</strong> support@civitrack.gov<br>
+                        <strong>Helpline:</strong> 1800-XXX-XXXX
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Navigation Buttons - Smooth Scroll
+        const homeBtn = document.querySelector('.home-btn');
+        const aboutBtn = document.querySelector('.about-btn');
+        const departmentsBtn = document.querySelector('.departments-btn');
+
+        // Home button - scroll to top
+        homeBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // About button - scroll to About section
+        aboutBtn.addEventListener('click', () => {
+            document.getElementById('about-section').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+
+        // Departments button - scroll to departments section
+        departmentsBtn.addEventListener('click', () => {
+            document.getElementById('departments-section').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+    </script>
 
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
