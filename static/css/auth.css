@@ -37,6 +37,7 @@ body {
     /* Increased horizontal padding */
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     text-align: center;
+    position: relative;
 }
 
 .auth-header {
@@ -203,4 +204,22 @@ body {
     background-color: #dcfce7;
     color: #166534;
     border: 1px solid #bbf7d0;
+}
+
+.back-home-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--subtext-color);
+    font-weight: 500;
+    font-size: 14px;
+    margin-top: 20px;
+    width: 100%;
+    transition: color 0.3s;
+}
+
+.back-home-link:hover {
+    color: var(--primary-color);
 }
