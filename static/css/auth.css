@@ -223,3 +223,24 @@ body {
 .back-home-link:hover {
     color: var(--primary-color);
 }
+
+/* Password Requirements Styling */
+.password-requirements {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px 15px;
+    margin-top: 8px;
+}
+
+.requirement-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    margin: 4px 0;
+    color: #738096;
+}
+
+.requirement-item i {
+    transition: all 0.2s ease;
+}

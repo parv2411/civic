@@ -79,7 +79,24 @@
                     <label for="password"><i class="fas fa-lock"></i> <span data-i18n="password">Create
                             Password</span></label>
                     <input type="password" id="password" name="password" data-i18n="password" placeholder="••••••••"
-                        required>
+                        required oninput="validatePassword()">
+                    
+                    <!-- Password Requirements -->
+                    <div class="password-requirements" id="passwordRequirements">
+                        <p style="margin: 10px 0 5px 0; font-size: 12px; font-weight: 600; color: #475569; display: none;" id="reqTitle">Password Requirements:</p>
+                        <div class="requirement-item">
+                            <i class="fas fa-circle" id="lengthCheck" style="font-size: 8px; color: #cbd5e1; margin-right: 8px;"></i>
+                            <span id="lengthText" style="color: #738096;">At least 6 characters</span>
+                        </div>
+                        <div class="requirement-item">
+                            <i class="fas fa-circle" id="uppercaseCheck" style="font-size: 8px; color: #cbd5e1; margin-right: 8px;"></i>
+                            <span id="uppercaseText" style="color: #738096;">At least one uppercase letter (A-Z)</span>
+                        </div>
+                        <div class="requirement-item">
+                            <i class="fas fa-circle" id="specialCheck" style="font-size: 8px; color: #cbd5e1; margin-right: 8px;"></i>
+                            <span id="specialText" style="color: #738096;">At least one special character (!@#$%^&*)</span>
+                        </div>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn-auth" data-i18n="register_btn">Register</button>
@@ -98,6 +115,61 @@
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+    <script>
+        // Real-time password validation
+        function validatePassword() {
+            const password = document.getElementById('password').value;
+            const reqTitle = document.getElementById('reqTitle');
+            const lengthCheck = document.getElementById('lengthCheck');
+            const uppercaseCheck = document.getElementById('uppercaseCheck');
+            const specialCheck = document.getElementById('specialCheck');
+            const lengthText = document.getElementById('lengthText');
+            const uppercaseText = document.getElementById('uppercaseText');
+            const specialText = document.getElementById('specialText');
+            
+            // Show requirements title when user starts typing
+            if (password.length > 0) {
+                reqTitle.style.display = 'block';
+            } else {
+                reqTitle.style.display = 'none';
+            }
+            
+            // Check length
+            const hasLength = password.length >= 6;
+            updateRequirement(lengthCheck, lengthText, hasLength, 'At least 6 characters');
+            
+            // Check uppercase
+            const hasUppercase = /[A-Z]/.test(password);
+            updateRequirement(uppercaseCheck, uppercaseText, hasUppercase, 'At least one uppercase letter (A-Z)');
+            
+            // Check special character
+            const hasSpecial = /[!@#$%^&()_+\-=\[\]{}|;:'",./<>?\\~`]/.test(password);
+            updateRequirement(specialCheck, specialText, hasSpecial, 'At least one special character (!@#$%^&*)');
+            
+            // Update form submit button state
+            const submitBtn = document.querySelector('.btn-auth');
+            if (password.length > 0 && !hasLength || !hasUppercase || !hasSpecial) {
+                submitBtn.style.opacity = '0.6';
+                submitBtn.style.cursor = 'not-allowed';
+            } else if (password.length > 0) {
+                submitBtn.style.opacity = '1';
+                submitBtn.style.cursor = 'pointer';
+            }
+        }
+        
+        function updateRequirement(checkIcon, textSpan, met, text) {
+            if (met) {
+                checkIcon.className = 'fas fa-check-circle';
+                checkIcon.style.color = '#10b981';
+                textSpan.style.color = '#10b981';
+            } else {
+                checkIcon.className = 'fas fa-circle';
+                checkIcon.style.color = '#cbd5e1';
+                textSpan.style.color = '#738096';
+            }
+            textSpan.textContent = text;
+        }
+    </script>
 </body>
 
 </html>

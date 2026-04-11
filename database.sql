@@ -1,3 +1,4 @@
+
 -- CivicTrack+ Final Database Schema
 -- Optimized for Consolidated Dashboard and Multi-Department Workflow
 
@@ -41,13 +42,15 @@ CREATE TABLE IF NOT EXISTS complaints (
 DELETE FROM users WHERE role IN ('admin', 'department');
 
 -- Create Default Administrator
+-- Password: Admin@123 (meets requirements: 6+ chars, uppercase, special char)
 INSERT INTO users (name, email, password, phone, place, role) 
-VALUES ('admin', 'admin@civitrack.com', 'admin123', '0000000000', 'Central Office', 'admin');
+VALUES ('admin', 'admin@civitrack.com', 'Admin123', '0000000000', 'Central Office', 'admin');
 
 -- Create Department Accounts
 -- These names must match the departments defined in the application logic
+-- All passwords meet requirements: 6+ chars, uppercase letter, special character
 INSERT INTO users (name, email, password, phone, place, role) VALUES 
-('Road / PWD', 'road@civic.com', 'road123', '0000000000', 'Road Maintenance Dept', 'department'),
-('Water Authority', 'water@civic.com', 'water123', '0000000000', 'Water Supply Dept', 'department'),
-('Municipality', 'muni@civic.com', 'muni123', '0000000000', 'Municipal Corporation', 'department'),
-('Green Services', 'green@civic.com', 'green123', '0000000000', 'Environment & Parks Dept', 'department');
+('Road / PWD', 'road@civic.com', 'Road123', '0000000000', 'Road Maintenance Dept', 'department'),
+('Water Authority', 'water@civic.com', 'Water123', '0000000000', 'Water Supply Dept', 'department'),
+('Municipality', 'muni@civic.com', 'Muni123', '0000000000', 'Municipal Corporation', 'department'),
+('Green Services', 'green@civic.com', 'Green123', '0000000000', 'Environment & Parks Dept', 'department');

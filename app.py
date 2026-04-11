@@ -1,10 +1,35 @@
 import os
+import re
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from db import get_db
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_key'
+
+# Password validation function
+def validate_password(password):
+    """
+    Validate password strength.
+    Requirements:
+    - Minimum 6 characters
+    - At least one uppercase letter
+    - At least one special character (!@#$%^&*()_+-=[]{}|;:',.<>?/~`)
+    Returns:
+    - (True, '') if valid
+    - (False, error_message) if invalid
+    """
+    if len(password) < 6:
+        return False, "Password must be at least 6 characters long."
+    
+    if not re.search(r'[A-Z]', password):
+        return False, "Password must contain at least one uppercase letter."
+    
+    if not re.search(r'[!@#$%^&()_+\-=\[\]{}|;:\'\",./<>?\\~`]', password):
+        return False, "Password must contain at least one special character (!@#$%^&*()_+-=[]{}|;:',.<>?/~`)."
+    
+    return True, ""
+
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -49,6 +74,12 @@ def register():
         phone = request.form.get("phone")
         email = request.form.get("email")
         password = request.form.get("password")
+        
+        # Validate password strength
+        is_valid, error_msg = validate_password(password)
+        if not is_valid:
+            flash(error_msg, "danger")
+            return render_template("register.html")
         
         db = get_db()
         cursor = db.cursor()
